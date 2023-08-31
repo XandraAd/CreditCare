@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { Box, Link as ChakraLink } from "@chakra-ui/react";
+import { Container, Box, Link as ChakraLink } from "@chakra-ui/react";
 import {
   Button,
   Drawer,
@@ -11,8 +11,7 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
-  Spacer,
-  Stack,
+ Stack,
   } from "@chakra-ui/react";
 import { NavLink as RouterLink } from "react-router-dom";
 import { useDisclosure } from "@chakra-ui/react";
@@ -44,7 +43,7 @@ const SideNav = () => {
 
   return (
     <>
-      <Box
+      <Container
         className={`navbox ${scrolled ? "scrolled" : ""}`}
         position="fixed"
         top={0}
@@ -138,7 +137,7 @@ const SideNav = () => {
 
          
         </Breadcrumb>
-      </Box>
+      </Container>
     </>
   );
 };
