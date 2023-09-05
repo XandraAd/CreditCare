@@ -1,8 +1,5 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
-import { Container, Box, Link as ChakraLink } from "@chakra-ui/react";
 import {
+  Box,
   Button,
   Drawer,
   DrawerOverlay,
@@ -11,39 +8,33 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
- Stack,
+  Spacer,
+  Stack,
   } from "@chakra-ui/react";
 import { NavLink as RouterLink } from "react-router-dom";
 import { useDisclosure } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import Logo3 from "../assets/png/logo-no-background.png";
 
-const SideNav = () => {
-  const [scrolled, setScrolled] = useState(false);
+function SideNav() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const firstField = React.useRef();
+  const btnRef = React.useRef();
+
+  const [greetText, setGreetText] = useState("");
+  const currentDate = useMemo(() => new Date(), []);
+  const day = currentDate.toLocaleDateString("default", { weekday: "long" });
+  const month = currentDate.toLocaleString("default", { month: "long" });
+  const date = `${day}, ${month} ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-
-      if (scrollTop > 0) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
+    let currentHour = currentDate.getHours();
+    if (currentHour < 12) setGreetText("Good Morning!");
+    else if (currentHour < 18) setGreetText("Good Afternoon!");
+    else setGreetText("Good Evening!");
+  }, [currentDate]);
   return (
     <>
-      <Container
+      <Box
         className={`navbox ${scrolled ? "scrolled" : ""}`}
         position="fixed"
         top={0}
@@ -137,9 +128,9 @@ const SideNav = () => {
 
          
         </Breadcrumb>
-      </Container>
+      </Box>
     </>
   );
-};
+}
 
 export default SideNav;
