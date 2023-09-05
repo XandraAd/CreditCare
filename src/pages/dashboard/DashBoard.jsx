@@ -1,8 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import {useEffect, useMemo, useState} from "react";
-import {Outlet} from "react-router-dom";
+/*import {Outlet} from "react-router-dom";*/
 import "./DashBoard.css";
+
+
 
 
 const DashBoard = () => {
@@ -24,7 +26,8 @@ const DashBoard = () => {
 
 
   return (
-   <>  <div className='app flex' >
+   <> 
+    <div className='app flex' >
        
    <div className='app-main'>
    <header className="header w-100 flex align-center justify-center">
@@ -40,10 +43,14 @@ const DashBoard = () => {
 </div>
 </header>
 <div className='notes-wrapper py-4 px-4'>
-<Outlet />
+
 </div>
 </div>
-</div></>
+</div>
+
+
+
+</>
   )
 }
 

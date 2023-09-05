@@ -2,19 +2,47 @@ import {
   Box,
   Button,
   Drawer,
-  DrawerOverlay,
-  DrawerContent,
   DrawerBody,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  Spacer,
-  Stack,
-  } from "@chakra-ui/react";
-import { NavLink as RouterLink } from "react-router-dom";
-import { useDisclosure } from "@chakra-ui/react";
-import { HamburgerIcon } from "@chakra-ui/icons";
-import Logo3 from "../assets/png/logo-no-background.png";
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  Flex,
+  Text,
+  Tooltip,
+  useDisclosure,
+} from "@chakra-ui/react";
+import React, { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { RxDashboard } from "react-icons/rx";
+import { CiCalculator1 } from "react-icons/ci";
+import { MdOutlinePayment } from "react-icons/md";
+import { BsCalendar3 } from "react-icons/bs";
+import { HiMenuAlt3 } from "react-icons/hi";
+
+const navItems = [
+  {
+    title: "Dashboard",
+    path: "/",
+    icon: <RxDashboard />,
+  },
+  {
+    title: "Loans",
+    path: "loans",
+    icon: <CiCalculator1 />,
+  },
+  {
+    title: "Payments",
+    path: "payment",
+    icon: <MdOutlinePayment />,
+  },
+  {
+    title: "Calendar",
+    path: "calendar",
+    icon: <BsCalendar3 />,
+  },
+];
 
 function SideNav() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -34,101 +62,59 @@ function SideNav() {
   }, [currentDate]);
   return (
     <>
-      <Box
-        className={`navbox ${scrolled ? "scrolled" : ""}`}
-        position="fixed"
-        top={0}
-        left={0}
-        right={0}
-        zIndex={9999}
-        transition="background-color 0.3s ease-in-out"
-        bg={scrolled ? "white" : "transparent"}
+      <Tooltip label="menu" hasArrow>
+        <Button
+          ref={btnRef}
+          bg="transparent"
+          _hover={{ bg: "#0062ff22" }}
+          m={2}
+          onClick={onOpen}
+        >
+          <HiMenuAlt3 fontSize="2rem" />
+        </Button>
+      </Tooltip>
+      <Drawer
+        isOpen={isOpen}
+        placement="left"
+        onClose={onClose}
+        finalFocusRef={btnRef}
+        size={{ base: "full", lg: "xs" }}
       >
-       
-        <Breadcrumb separator=" ">
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Credit Care</DrawerHeader>
 
-        <BreadcrumbItem>
-            <BreadcrumbLink>
-              <Button
-                leftIcon={<HamburgerIcon />}
-                colorScheme="teal"
-                
-                onClick={isOpen ? onClose : onOpen}
-              />
-
-              <Drawer
-                isOpen={isOpen}
-                placement="left"
-                initialFocusRef={firstField}
-                onClose={onClose}
+          <DrawerBody mt={10}>
+            {navItems.map((navItem, index) => (
+              <Flex
+                key={index}
+                as={Link}
+                to={navItem.path}
+                onClick={() => onClose()}
+                mb={2}
+                fontSize="2xl"
+                _hover={{ bgColor: "#0062ff22" }}
+                p={3}
+                rounded="lg"
+                align="center"
+                gap={4}
               >
-                <DrawerOverlay />
-                <DrawerContent style={{ width: "45%", marginTop: "10%" }}>
-                 
-                  <DrawerBody
-                    style={{
-                      fontSize: "2rem",
-                      color: "gray",
-                      marginTop: "2rem",
-                    }}
-                    
+                {navItem.icon}
+                {navItem.title}
+              </Flex>
+            ))}
+          </DrawerBody>
 
-                  >
-                  
-                    <Stack spacing="24px">
-                      <Box>
-                        <ChakraLink as={RouterLink} to="/dashboard">
-                          DashBoard
-                        </ChakraLink>
-                      </Box>
-
-                      <Box>
-                        <ChakraLink as={RouterLink} to="/loans">
-                          Loans
-                        </ChakraLink>
-                      </Box>
-
-                      <Box>
-                        <ChakraLink as={RouterLink} to="/payment">
-                          Payment
-                        </ChakraLink>
-                      </Box>
-
-                      <Box>
-                        <ChakraLink as={RouterLink} to="/calendar">
-                          Calendar
-                        </ChakraLink>
-                      </Box>
-                    </Stack>
-                  </DrawerBody>
-                </DrawerContent>
-              </Drawer>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-
-          
-          <Box >
-            <Breadcrumb>
-            <BreadcrumbItem>
-            <a href="/dashboard">
-              <img
-                src={Logo3}
-                alt="DashBoard"
-                style={{ width: "10rem", height: "5rem" ,marginTop:"2rem"}}
-              />{" "}
-            </a>
-          </BreadcrumbItem>
-          </Breadcrumb>
-                
-        </Box>
-         
-      
-
-          
-
-         
-        </Breadcrumb>
-      </Box>
+          <DrawerFooter>
+            <Box fontSize="xs" me="auto">
+              <Text>{greetText}</Text>
+              <Text>{date}</Text>
+            </Box>
+            <Button colorScheme="blue">Logout</Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }
