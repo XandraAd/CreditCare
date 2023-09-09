@@ -9,29 +9,56 @@ import {
   Stack,
   Heading,
   Center,
-  Checkbox,
   Text,
-  Flex,
+  useToast,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Signup.css";
+import { signIn } from "../../config/firebase";
 
 function SignInForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isCheckboxChecked, setIsCheckboxChecked] = useState("false");
+  const [login, setLogin] = useState({
+    email: "",
+    password: "",
+  });
+  const { email, password } = login;
+  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
+  const navigate = useNavigate();
 
-  const handleEmailChange = (e) => setEmail(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
-  const handleCheckboxChange = () => {
-    setIsCheckboxChecked(!isCheckboxChecked);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setLogin((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add the sign-in logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
+    // console.log(login);
+    setIsLoading(true);
+    try {
+      await signIn(email, password);
+      setLogin({
+        email: "",
+        password: "",
+      });
+      toast({
+        description: "Successfully Logged-in",
+        duration: 3000,
+        status: "success",
+        colorScheme: "green",
+      });
+    } catch (error) {
+      toast({
+        description: "User Not Found",
+        duration: 3000,
+        status: "error",
+        colorScheme: "red",
+      });
+      setError(true);
+    }
+    setIsLoading(false);
+    navigate({ pathname: "/" });
   };
 
   return (
@@ -42,53 +69,42 @@ function SignInForm() {
             <Heading as="h3" size="md" mb="10px">
               Login
             </Heading>
+            {error && (
+              <Text color="red.400" fontWeight="semibold">
+                An Error has Occurred
+              </Text>
+            )}
           </Center>
           <Stack spacing={8}>
-            <FormControl id="email">
+            <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
               <Input
                 type="email"
-                value={email}
-                onChange={handleEmailChange}
+                name="email"
+                onChange={handleChange}
                 placeholder="Enter your email"
               />
             </FormControl>
-            <FormControl id="password">
+            <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
               <Input
                 type="password"
-                value={password}
-                onChange={handlePasswordChange}
+                name="password"
+                onChange={handleChange}
                 placeholder="Enter your password"
               />
             </FormControl>
-            
-            <Button type="submit" colorScheme="blue" size="lg" mb="0">
-              Submit
-            </Button>
-            <Box>
-            <Flex flexDirection="column" alignItems="flex-end">
-              <Text fontSize="md" mt={0}>
-                Forgot {""}
-                <Link to="/password" style={{ color: "blue" }}>
-                  Password?
-                </Link>
-              </Text>
-            </Flex>
-            </Box>
-
-            
-
-            <Checkbox
-              colorScheme="green"
-              defaultChecked={isCheckboxChecked}
-              onChange={handleCheckboxChange}
+            <Button
+              type="submit"
+              colorScheme="blue"
+              size="lg"
+              mb="0"
+              isLoading={isLoading}
             >
-              <Text fontSize="xs">Remember Me</Text>
-            </Checkbox>
+              Sign In
+            </Button>
             <Text fontSize="md">
-              {" "}
-              Not a member?{" "}
+              Not a member?
               <Link to="/signup" className="signup_link">
                 Sign up now
               </Link>

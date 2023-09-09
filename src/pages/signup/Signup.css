@@ -9,25 +9,28 @@
 
 
 .backgroundStyle {
-    background-image: url("../../assets/images/moneyplant.jpg");
-    background-size: cover;
-    
-    width: 100%;
     height: 100vh;
     position: relative;
-   
-    
   }
+
+.backgroundStyle::after {
+  content:"";
+  position: absolute;
+  top: 0;
+  z-index: -1;
+  background-image: url("../../assets/images/moneyplant.jpg");
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  filter: blur(5px);
+}
 
 .formContainerStyle {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
-   
     width: 50%;
-    
-
 }
 
 .formStyle {
@@ -38,9 +41,6 @@
     width: 100%;
     height: 100%;
     box-shadow: 2px 0px 10px rgba(2, 119, 88, 0.969);
-   
-   
-  
 }
 
 

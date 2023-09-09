@@ -12,14 +12,16 @@ import {
   Text,
   Tooltip,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RxDashboard } from "react-icons/rx";
 import { CiCalculator1 } from "react-icons/ci";
 import { MdOutlinePayment } from "react-icons/md";
 import { BsCalendar3 } from "react-icons/bs";
 import { HiMenuAlt3 } from "react-icons/hi";
+import { logout } from "../config/firebase";
 
 const navItems = [
   {
@@ -45,6 +47,30 @@ const navItems = [
 ];
 
 function SideNav() {
+  const toast = useToast();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      setIsLoading(true);
+      await logout();
+      setIsLoading(false);
+      toast({
+        description: "successfully logged-out",
+        status: "success",
+        duration: 4000,
+        colorScheme: "green",
+      });
+      navigate({ pathname: "/signin" });
+    } catch (error) {
+      toast({
+        description: error.message,
+        status: "error",
+        duration: 4000,
+      });
+    }
+  };
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
 
@@ -111,7 +137,13 @@ function SideNav() {
               <Text>{greetText}</Text>
               <Text>{date}</Text>
             </Box>
-            <Button colorScheme="blue">Logout</Button>
+            <Button
+              colorScheme="blue"
+              onClick={handleLogout}
+              isLoading={isLoading}
+            >
+              Logout
+            </Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
