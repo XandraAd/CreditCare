@@ -27,11 +27,7 @@ const Navigation = (onSearch) => {
       </Button>
     </Flex>
         </Container>
-                      <Box>
-                        <ChakraLink as={RouterLink} to="#">
-                          <HamburgerIcon boxSize={8}/>
-                        </ChakraLink>
-                      </Box>
+                      
 
                       <Box>
                         <ChakraLink as={RouterLink} to="#">
