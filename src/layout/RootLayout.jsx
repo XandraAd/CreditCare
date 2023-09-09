@@ -1,15 +1,14 @@
+/* eslint-disable react/prop-types */
 import { Outlet } from "react-router-dom";
 import SideNav from "../component/SideNav";
 import Navigation from "../component/Navigation";
-/*import SetUp from "../pages/SetUp"*/
 
-function RootLayout() {
+function RootLayout({isAuthenticated}) {
   return (
     <>
-      <SideNav />
-      <Navigation/>
-      {/*<SetUp/>*/}
-      <Outlet />
+      {isAuthenticated && <SideNav />}
+      {isAuthenticated && <Navigation/>}
+      {isAuthenticated && <Outlet />}
     </>
   );
 }
