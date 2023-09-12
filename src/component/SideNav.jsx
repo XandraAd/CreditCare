@@ -13,7 +13,15 @@ import {
   Tooltip,
   useDisclosure,
   useToast,
+  HStack,
+  Container,
+  Link as ChakraLink,
+  Avatar,
+  AvatarBadge,
+  Input,
 } from "@chakra-ui/react";
+import { NavLink as RouterLink } from "react-router-dom";
+import { BellIcon } from "@chakra-ui/icons";
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { RxDashboard } from "react-icons/rx";
@@ -45,6 +53,48 @@ const navItems = [
     icon: <BsCalendar3 />,
   },
 ];
+
+const Navigation = (onSearch) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearch = () => {
+    onSearch(searchTerm);
+  };
+  return (
+    <>
+      <HStack w="full" me="1.5rem" spacing={5}>
+        <Container>
+          <Flex alignItems="center">
+            <Input
+              type="text"
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              bg="#FDFDFD"
+            />
+            <Button ml={2} onClick={handleSearch}>
+              Search
+            </Button>
+          </Flex>
+        </Container>
+                      
+
+        <Box>
+          <ChakraLink as={RouterLink} to="#">
+            <BellIcon boxSize={8} />
+          </ChakraLink>
+        </Box>
+        <hr />
+        <HStack>
+          <Avatar boxSize="2rem">
+            <AvatarBadge boxSize="1em" bg="green.500" />
+          </Avatar>
+        </HStack>
+      </HStack>
+    </>
+  );
+};
+
 
 function SideNav() {
   const toast = useToast();
@@ -88,17 +138,20 @@ function SideNav() {
   }, [currentDate]);
   return (
     <>
-      <Tooltip label="menu" hasArrow>
-        <Button
-          ref={btnRef}
-          bg="transparent"
-          _hover={{ bg: "#0062ff22" }}
-          m={2}
-          onClick={onOpen}
-        >
-          <HiMenuAlt3 fontSize="2rem" />
-        </Button>
-      </Tooltip>
+      <Flex align="center">
+        <Tooltip label="menu" hasArrow>
+          <Button
+            ref={btnRef}
+            bg="transparent"
+            _hover={{ bg: "#0062ff22" }}
+            m={2}
+            onClick={onOpen}
+          >
+            <HiMenuAlt3 fontSize="2rem" />
+          </Button>
+        </Tooltip>
+        <Navigation/>
+      </Flex>
       <Drawer
         isOpen={isOpen}
         placement="left"
