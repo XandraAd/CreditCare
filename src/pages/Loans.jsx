@@ -9,15 +9,144 @@ import {
   Input,
   Center,
   HStack,
-  VStack,
-  Stack,
   Heading,
   Select,
   Box,
   Container,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  Icon,
 } from "@chakra-ui/react";
+import { FiEdit3 } from "react-icons/fi";
+import { BsPlusLg } from "react-icons/bs";
+import { CircularProgressBar } from "@tomickigrzegorz/react-circular-progress-bar";
+
+
+function EditForm() {
+  return (
+    <>
+      <Box>
+        <CircularProgressBar
+          colorCircle="#EDF2F7"
+          colorSlice="#9BE9E2"
+          cut={30}
+          percent={75}
+          rotation={144}
+          round={true}
+        />
+      </Box>
+    </>
+  );
+}
+
+function LoanCard() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  return (
+    <>
+      <Box w="16rem" h={"16rem"} rounded="lg" ms={2} bg="#FDFDFD" mt={2}>
+        <Box p={4}>
+          <Text fontSize={"sm"} color="gray.400" fontWeight="semibold">
+            Estimated Payment
+          </Text>
+          <Flex gap={5} align="center" fontSize="lg" lineHeight={8}>
+            <Text
+              bgGradient="linear(to-r,cyan.700,cyan.500,teal.300)"
+              bgClip="text"
+              fontWeight="semibold"
+            >
+              4515.00
+            </Text>
+            <Text color="gray.400" fontWeight="semibold" ms="auto">
+              GHS
+            </Text>
+          </Flex>
+          <Text fontSize={"sm"} color="gray.400" fontWeight="semibold">
+            Principal Amount
+          </Text>
+          <Flex gap={5} align="center" fontSize="lg" lineHeight={8}>
+            <Text
+              bgGradient="linear(to-r,cyan.700,cyan.500,teal.300)"
+              bgClip="text"
+              fontWeight="semibold"
+            >
+              4200
+            </Text>
+            <Text color="gray.400" fontWeight="semibold" ms="auto">
+              GHS
+            </Text>
+          </Flex>
+          <Text fontSize={"sm"} color="gray.400" fontWeight="semibold">
+            Interest Rate
+          </Text>
+          <Flex gap={5} align="center" fontSize="lg" lineHeight={8}>
+            <Text
+              bgGradient="linear(to-r,cyan.700,cyan.500,teal.300)"
+              bgClip="text"
+              fontWeight="semibold"
+            >
+              7.5
+            </Text>
+            <Text color="gray.400" fontWeight="semibold" ms="auto">
+              %
+            </Text>
+          </Flex>
+          <Text fontSize={"sm"} color="gray.400" fontWeight="semibold">
+            Loan Category
+          </Text>
+          <Flex gap={5} align="center" fontSize="xl" lineHeight={8}>
+            <Text
+              bgGradient="linear(to-r,cyan.700,cyan.500,teal.300)"
+              bgClip="text"
+              fontWeight="semibold"
+            >
+              Peer to Peer
+            </Text>
+          </Flex>
+          <Flex>
+            <Icon
+              as={FiEdit3}
+              color="#FDFDFD"
+              bgGradient="linear(to-l,teal.100,teal.200,teal.300)"
+              fontSize="6xl"
+              rounded="full"
+              p={1}
+              border="8px"
+              borderColor="gray.100"
+              ms="auto"
+              cursor="pointer"
+              onClick={onOpen}
+            />
+          </Flex>
+        </Box>
+      </Box>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader mx="auto">Modal Title</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody mx="auto">
+            <EditForm />
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button variant="ghost">Secondary Action</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
 
 const Loans = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [category, setCategory] = useState("");
   const [loanDate, setLoanDate] = useState("");
   const [loanType, setLoanType] = useState("");
@@ -29,27 +158,19 @@ const Loans = () => {
   const [startDate, setStartDate] = useState("");
   const [pFrequency, setPFrequency] = useState("");
 
+  const handleChange = (e) => {
+    e.preventDefault();
+  };
+
   const loanTypes = [
     { label: "Loan Disbursed", value: "loanDisbursed" },
     { label: "Outstanding Debt", value: "outstandingDebt" },
-    // You Can add more country codes as needed
   ];
 
   const payfrequencies = [
     { label: "Weekly", value: "weekly" },
     { label: "Monthly", value: "monthly" },
   ];
-
-  const handleCategoryChange = (e) => setCategory(e.target.value);
-  const handleLoanDateChange = (e) => setLoanDate(e.target.value);
-  const handLoanTypeChange = (e) => setLoanType(e.target.value);
-  const handleEstPaymentChange = (e) => setEstPayment(e.target.value);
-  const handleLoanAmountChange = (e) => setLoanAmount(e.target.value);
-  const handleNextPaymentChange = (e) => setNextPayment(e.target.value);
-  const handleAIntRateChange = (e) => setAIntRate(e.target.value);
-  const handleTermChange = (e) => setTerm(e.target.value);
-  const handleAStartDateChange = (e) => setStartDate(e.target.value);
-  const handlePFrequencyChange = (e) => setPFrequency(e.target.value);
 
   // Define the calculateEMI function
   const calculateEMI = () => {
@@ -70,161 +191,170 @@ const Loans = () => {
 
   return (
     <>
-      <Flex flexDir="column" mt="6" alignItem="center" bg='green.100'>
+      <Flex flexDir="column" mt="6" alignItem="center">
         <Heading
           textTransform="uppercase"
           fontSize="2xl"
-          m='0 auto'
+          m="0 auto"
           bgGradient="linear(to-r,cyan.700,cyan.500,teal.200)"
           bgClip="text"
         >
           Loan Data
         </Heading>
       </Flex>
-      <Container
-        bg="yellow"
-        mt="2"
-        borderColor="red"
-        borderWidth="2px"
-        borderRadius="10px"
-        h="100vh"
-      >
-        <Flex flexDir="column" mt="6">
-          <Center>
-            <Flex flexDir="column">
-              <Box bg="red">
-                <HStack p="5px" mb="8px" bg="orange">
-                  <Button
-                    mt="5px"
-                    p="8px"
-                    mr="15px"
-                    borderColor="rgba(255 255 255 0,75)"
-                    borderWidth="2px"
-                    borderRadius="10px"
-                  >
-                    <Text>Add New Loan</Text>
-                  </Button>
-                  <Button
-                    mt="5px"
-                    ml="15px"
-                    p="8px"
-                    borderColor="rgba(255 255 255 0,75)"
-                    borderWidth="2px"
-                    borderRadius="10px"
-                  >
-                    <Text>Save/Update Loan</Text>
-                  </Button>
-                </HStack>
-              </Box>
 
-              <Box bg="green" p="15px" h="85vh">
-                <HStack>
-                  <FormControl id="category" p="5px">
-                    <FormLabel>Loan Name/Category:</FormLabel>
-                    <Input
-                      type="text"
-                      value={category}
-                      onChange={handleCategoryChange}
-                    />
-                  </FormControl>
-                  <FormControl id="loanDate" p="5px">
-                    <FormLabel>Loan Date:</FormLabel>
-                    <Input
-                      type="date"
-                      value={loanDate}
-                      onChange={handleLoanDateChange}
-                    />
-                  </FormControl>
-                </HStack>
-                <HStack>
-                  <FormControl id="loanType" p="5px">
-                    <FormLabel>loan Type:</FormLabel>
-                    <Select
-                      value={loanType}
-                      onChange={handLoanTypeChange}
-                      placeholder="Loan Type"
-                    >
-                      {loanTypes.map((type) => (
-                        <option key={type.value} value={type.value}>
-                          {type.label}
-                        </option>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  <FormControl id="loanAmount" p="5px">
-                    <FormLabel>loan Amount:</FormLabel>
-                    <Input
-                      type="number"
-                      value={loanAmount}
-                      onChange={handleLoanAmountChange}
-                    />
-                  </FormControl>
-                </HStack>
-                <HStack>
-                  <FormControl id="aIntRate" p="5px">
-                    <FormLabel>Annnual Int. Rate:</FormLabel>
-                    <Input
-                      type="number"
-                      value={aIntRate}
-                      onChange={handleAIntRateChange}
-                    />
-                  </FormControl>
-                  <FormControl id="term" p="5px">
-                    <FormLabel>Term(Years):</FormLabel>
-                    <Input
-                      type="number"
-                      value={term}
-                      onChange={handleTermChange}
-                    />
-                  </FormControl>
-                </HStack>
-                <HStack>
-                  <FormControl id="pFrequency" p="5px">
-                    <FormLabel>Pay Frequency:</FormLabel>
-                    <Select
-                      value={pFrequency}
-                      onChange={handlePFrequencyChange}
-                      placeholder="Loan Type"
-                    >
-                      {payfrequencies.map((frequency) => (
-                        <option key={frequency.value} value={frequency.value}>
-                          {frequency.label}
-                        </option>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  <FormControl id="startDate" p="5px">
-                    <FormLabel>Start Date:</FormLabel>
-                    <Input
-                      type="date"
-                      value={startDate}
-                      onChange={handleAStartDateChange}
-                    />
-                  </FormControl>
-                </HStack>
-                <HStack>
-                  <FormControl id="estPayment" p="5px">
-                    <FormLabel> Estimated Payment:</FormLabel>
-                    <Input
-                      type="number"
-                      value={estPayment}
-                      onChange={handleEstPaymentChange}
-                    />
-                  </FormControl>
-                  <FormControl id="nextPayment" p="5px">
-                    <FormLabel>Next Payment:</FormLabel>
-                    <Input
-                      type="date"
-                      value={nextPayment}
-                      onChange={handleNextPaymentChange}
-                    />
-                  </FormControl>
-                </HStack>
-              </Box>
-            </Flex>
-          </Center>
-        </Flex>
-      </Container>
+      <Flex h="70vh" flexDir="column" mx={8}>
+        <LoanCard />
+        <Icon
+          as={BsPlusLg}
+          onClick={onOpen}
+          fontSize="5xl"
+          rounded="full"
+          borderColor="#F8F8F8"
+          color="#FDFDFD"
+          bgGradient="linear(to-l,teal.100,teal.200,teal.300)"
+          cursor="pointer"
+          shadow="lg"
+          ms="auto"
+          mt="auto"
+        />
+      </Flex>
+
+      <Modal isOpen={isOpen} onClose={onClose} size="3xl">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Modal Title</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Container
+              mt="2"
+              borderColor="red"
+              borderWidth="2px"
+              borderRadius="10px"
+            >
+              <Flex flexDir="column" mt="6">
+                <Center>
+                  <Flex flexDir="column">
+                    <Box p="15px">
+                      <HStack>
+                        <FormControl id="category" p="5px">
+                          <FormLabel>Loan Name/Category:</FormLabel>
+                          <Input
+                            type="text"
+                            value={category}
+                            onChange={handleChange}
+                          />
+                        </FormControl>
+                        <FormControl id="loanDate" p="5px">
+                          <FormLabel>Loan Date:</FormLabel>
+                          <Input
+                            type="date"
+                            value={loanDate}
+                            onChange={handleChange}
+                          />
+                        </FormControl>
+                      </HStack>
+                      <HStack>
+                        <FormControl id="loanType" p="5px">
+                          <FormLabel>loan Type:</FormLabel>
+                          <Select
+                            value={loanType}
+                            onChange={handleChange}
+                            placeholder="Loan Type"
+                          >
+                            {loanTypes.map((type) => (
+                              <option key={type.value} value={type.value}>
+                                {type.label}
+                              </option>
+                            ))}
+                          </Select>
+                        </FormControl>
+                        <FormControl id="loanAmount" p="5px">
+                          <FormLabel>Loan Amount:</FormLabel>
+                          <Input
+                            type="number"
+                            value={loanAmount}
+                            onChange={handleChange}
+                          />
+                        </FormControl>
+                      </HStack>
+                      <HStack>
+                        <FormControl id="aIntRate" p="5px">
+                          <FormLabel>Annual Int. Rate:</FormLabel>
+                          <Input
+                            type="number"
+                            value={aIntRate}
+                            onChange={handleChange}
+                          />
+                        </FormControl>
+                        <FormControl id="term" p="5px">
+                          <FormLabel>Term(Years):</FormLabel>
+                          <Input
+                            type="number"
+                            value={term}
+                            onChange={handleChange}
+                          />
+                        </FormControl>
+                      </HStack>
+                      <HStack>
+                        <FormControl id="pFrequency" p="5px">
+                          <FormLabel>Pay Frequency:</FormLabel>
+                          <Select
+                            value={pFrequency}
+                            onChange={handleChange}
+                            placeholder="Loan Type"
+                          >
+                            {payfrequencies.map((frequency) => (
+                              <option
+                                key={frequency.value}
+                                value={frequency.value}
+                              >
+                                {frequency.label}
+                              </option>
+                            ))}
+                          </Select>
+                        </FormControl>
+                        <FormControl id="startDate" p="5px">
+                          <FormLabel>Start Date:</FormLabel>
+                          <Input
+                            type="date"
+                            value={startDate}
+                            onChange={handleChange}
+                          />
+                        </FormControl>
+                      </HStack>
+                      <HStack>
+                        <FormControl id="estPayment" p="5px">
+                          <FormLabel> Estimated Payment:</FormLabel>
+                          <Input
+                            type="number"
+                            value={estPayment}
+                            onChange={handleChange}
+                          />
+                        </FormControl>
+                        <FormControl id="nextPayment" p="5px">
+                          <FormLabel>Next Payment:</FormLabel>
+                          <Input
+                            type="date"
+                            value={nextPayment}
+                            onChange={handleChange}
+                          />
+                        </FormControl>
+                      </HStack>
+                    </Box>
+                  </Flex>
+                </Center>
+              </Flex>
+            </Container>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button variant="ghost">Secondary Action</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };
