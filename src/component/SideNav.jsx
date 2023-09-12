@@ -44,6 +44,11 @@ const navItems = [
     path: "calendar",
     icon: <BsCalendar3 />,
   },
+  {
+    title: "Credit Score",
+    path: "creditScore",
+    icon: <BsCalendar3 />,
+  },
 ];
 
 function SideNav() {

@@ -5,6 +5,7 @@ import DashBoard from "./pages/dashboard/DashBoard";
 import Loans from "./pages/Loans";
 import Payment from "./pages/Payment";
 import Calendar from "./pages/Calendar";
+import CreditScore from "./pages/CreditScore";
 import {
   Route,
   createBrowserRouter,
@@ -48,6 +49,7 @@ function App() {
           <Route exact path="loans" element={<Loans />} />
           <Route exact path="payment" element={<Payment />} />
           <Route exact path="calendar" element={<Calendar />} />
+          <Route exact path="creditScore" element={<CreditScore />} />
         </Route>
         <Route path="*" element={<ErrorPage />} />
         <Route
