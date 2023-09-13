@@ -49,7 +49,7 @@ function LoanCard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Box w="16rem" h={"16rem"} rounded="lg" ms={2} bg="#FDFDFD" mt={2}>
+      <Box w="16rem" h="16rem" rounded="lg" ms={2} bg="#FDFDFD" mt={2}>
         <Box p={4}>
           <Text fontSize={"sm"} color="gray.400" fontWeight="semibold">
             Estimated Payment
@@ -186,7 +186,7 @@ const Loans = () => {
       (Math.pow(1 + rateOfInterest, numberOfPayments) - 1);
 
     // Set the calculated EMI to the estPayment state
-    setEstPayment(emi.toFixed(2)); // Rounded to 2 decimal places
+    setEstPayment(Number.parseFloat(emi).toFixed(2)); // Rounded to 2 decimal places
   };
 
   return (
