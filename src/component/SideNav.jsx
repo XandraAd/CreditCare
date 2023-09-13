@@ -18,6 +18,7 @@ import {
   Input,
   Heading,
   Icon,
+  Image,
 } from "@chakra-ui/react";
 import { NavLink as RouterLink } from "react-router-dom";
 import { BellIcon } from "@chakra-ui/icons";
@@ -28,7 +29,9 @@ import { FcCalculator } from "react-icons/fc";
 import { MdOutlinePayment } from "react-icons/md";
 import { BsCalendar3 } from "react-icons/bs";
 import { HiMenuAlt3 } from "react-icons/hi";
+import {MdCreditScore} from "react-icons/md"
 import { logout } from "../config/firebase";
+import Logo from "../assets/png/logo-no-background.png"
 
 const navItems = [
   {
@@ -58,7 +61,7 @@ const navItems = [
   {
     title: "Credit Score",
     path: "creditScore",
-    icon: <Icon as={BsCalendar3} color="cyan.400" />,
+    icon: <Icon as={MdCreditScore} color="cyan.400" />,
     color: "cyan.400",
   },
 ];
@@ -190,7 +193,7 @@ function SideNav() {
               bgGradient="linear(to-r,cyan.700,cyan.500,teal.300)"
               bgClip="text"
             >
-              Credit Care
+              <Image src={Logo} style={{ width: '200px', height: '100px' }}></Image>
             </Heading>
             <Button
               variant="solid"

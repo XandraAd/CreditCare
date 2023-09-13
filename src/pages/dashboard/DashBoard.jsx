@@ -222,19 +222,19 @@ const DashBoard = () => {
                           <Tbody>
                             <Tr>
                               <Td>Outstanding Debt</Td>
-                              <Td>Personal Loan</Td>
+                              <Td>Business Loan</Td>
                               <Td>3rd</Td>
                               <Td isNumeric> Ghc 25.4</Td>
                             </Tr>
                             <Tr>
                               <Td>Outstanding Debt</Td>
-                              <Td>Home loan</Td>
+                              <Td>Home Loan</Td>
                               <Td>7rd</Td>
                               <Td isNumeric> Ghc 30.48</Td>
                             </Tr>
                             <Tr>
                               <Td>Loan Disbursed</Td>
-                              <Td>Business Loan</Td>
+                              <Td>Peer to Peer</Td>
                               <Td>3rd</Td>
                               <Td isNumeric> Ghc 900</Td>
                             </Tr>
