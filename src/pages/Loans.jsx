@@ -30,7 +30,7 @@ import { CircularProgressBar } from "@tomickigrzegorz/react-circular-progress-ba
 import { nanoid } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { addFunction, updateFunction } from "../slices/functionSlice";
-import { BiSolidDashboard } from "react-icons/bi";
+import { MdDashboard } from "react-icons/md";
 import { IoMdPeople } from "react-icons/io";
 import { FcHome, FcBusiness } from "react-icons/fc";
 
@@ -42,8 +42,8 @@ function LoanCard({ onEditBudget, searchQuery }) {
   const tabNames = [
     {
       name: "All",
-      icon: <Icon as={BiSolidDashboard} />,
-      color: "purple.300",
+      icon: <Icon as={MdDashboard} color="purple.400"/>,
+      color: "purple.400",
       bgTransparent: "purple.100",
     },
     {

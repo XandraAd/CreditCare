@@ -3,10 +3,7 @@ import {
   Button,
   Drawer,
   DrawerBody,
-  DrawerCloseButton,
   DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
   DrawerOverlay,
   Flex,
   Text,
@@ -19,14 +16,16 @@ import {
   Avatar,
   AvatarBadge,
   Input,
+  Heading,
+  Icon,
   Image
 } from "@chakra-ui/react";
 import { NavLink as RouterLink } from "react-router-dom";
 import { BellIcon } from "@chakra-ui/icons";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { RxDashboard } from "react-icons/rx";
-import { CiCalculator1 } from "react-icons/ci";
+import { FcCalculator } from "react-icons/fc";
 import { MdOutlinePayment } from "react-icons/md";
 import { BsCalendar3 } from "react-icons/bs";
 import { HiMenuAlt3 } from "react-icons/hi";
@@ -39,27 +38,32 @@ const navItems = [
   {
     title: "Dashboard",
     path: "/",
-    icon: <RxDashboard />,
-  },
-  {
-    title: "Loans",
-    path: "loans",
-    icon: <CiCalculator1 />,
+    icon: <Icon as={RxDashboard} color="blue.500" />,
+    color: "blue.500",
   },
   {
     title: "Payments",
     path: "payment",
-    icon: <MdOutlinePayment />,
+    icon: <Icon as={MdOutlinePayment} color="orange.300" />,
+    color: "orange.300",
+  },
+  {
+    title: "Loans",
+    path: "loans",
+    icon: <FcCalculator />,
+    color: "green.400",
   },
   {
     title: "Calendar",
     path: "calendar",
-    icon: <BsCalendar3 />,
+    icon: <Icon as={BsCalendar3} color="red.400" />,
+    color: "red.400",
   },
   {
     title: "Credit Score",
     path: "creditScore",
-    icon: <GrScorecard />,
+    icon: <Icon as={BsCalendar3} color="cyan.400" />,
+    color: "cyan.400",
   },
 ];
 
@@ -86,7 +90,6 @@ const Navigation = (onSearch) => {
             </Button>
           </Flex>
         </Container>
-                      
 
         <Box>
           <ChakraLink as={RouterLink} to="#">
@@ -104,7 +107,6 @@ const Navigation = (onSearch) => {
   );
 };
 
-
 function SideNav() {
   const toast = useToast();
   const navigate = useNavigate();
@@ -119,7 +121,8 @@ function SideNav() {
         description: "successfully logged-out",
         status: "success",
         duration: 4000,
-        colorScheme: "green",
+        variant: "left-accent",
+        colorScheme: "teal",
       });
       navigate({ pathname: "/signin" });
     } catch (error) {
@@ -127,6 +130,7 @@ function SideNav() {
         description: error.message,
         status: "error",
         duration: 4000,
+        variant: "left-accent",
       });
     }
   };
@@ -138,7 +142,6 @@ function SideNav() {
   const day = currentDate.toLocaleDateString("default", { weekday: "long" });
   const month = currentDate.toLocaleString("default", { month: "long" });
   const date = `${day}, ${month} ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
-  
 
   useEffect(() => {
     let currentHour = currentDate.getHours();
@@ -148,23 +151,23 @@ function SideNav() {
   }, [currentDate]);
   return (
     <>
-      <Flex align="center" mt={5} w={{xl: "75%"}} mx="auto">
+      <Flex align="center" mt={5} w={{ xl: "75%" }} mx="auto">
         <Tooltip label="menu" hasArrow>
           <Button
             ref={btnRef}
             bg="transparent"
-            _hover={{ bg: "#0062ff22" }}
+            _hover={{ bg: "#FDFDFD85" }}
             m={2}
             onClick={onOpen}
           >
             <HiMenuAlt3 fontSize="2rem" />
           </Button>
         </Tooltip>
-        <Navigation/>
+        <Navigation />
       </Flex>
       <Drawer
         isOpen={isOpen}
-        placement="left"
+        placement="top"
         onClose={onClose}
         finalFocusRef={btnRef}
         size={{ base: "full", lg: "xs" }}
@@ -172,9 +175,9 @@ function SideNav() {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <Image src={Logo} style={{ width: '300px', height: '200px' }}/>
+          <DrawerHeader>Credit Care</DrawerHeader>
 
-          <DrawerBody border="2px" borderColor="blue.400">
+          <DrawerBody mt={10} border="1px">
             {navItems.map((navItem, index) => (
               <Flex
                 key={index}
@@ -195,19 +198,13 @@ function SideNav() {
             ))}
           </DrawerBody>
 
-          <DrawerFooter>
+          {/* <DrawerFooter>
             <Box fontSize="xs" me="auto">
               <Text>{greetText}</Text>
               <Text>{date}</Text>
             </Box>
-            <Button
-              colorScheme="blue"
-              onClick={handleLogout}
-              isLoading={isLoading}
-            >
-              Logout
-            </Button>
-          </DrawerFooter>
+            
+          </DrawerFooter> */}
         </DrawerContent>
       </Drawer>
     </>
