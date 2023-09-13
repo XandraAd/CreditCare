@@ -16,7 +16,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import "./Signup.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { db, signUp } from "../../config/firebase";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 
@@ -39,7 +39,7 @@ function SignUpForm() {
     countryCode,
     telephone,
   } = registerUser;
-  
+
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
 
   const countryCodes = [
@@ -109,11 +109,16 @@ function SignUpForm() {
 
   return (
     <Box className="backgroundStyle">
-      <Box p={4} className="formContainerStyle">
+      <Box p={4} className="formContainerStyle" w={{ base: "full", lg: "50%" }}>
         <form onSubmit={handleSubmit} className="formStyle">
           <Center>
-            <Heading as="h3" size="md" mb="10px">
-              Sign Up
+            <Heading
+              size="lg"
+              mb={5}
+              bgGradient="linear(to-r,cyan.700,cyan.500,teal.300)"
+              bgClip="text"
+            >
+              Credit Care
             </Heading>
             {error && (
               <Text color="red.400" fontWeight="semibold">
@@ -206,9 +211,21 @@ function SignUpForm() {
               size="lg"
               disabled={!isCheckboxChecked}
               isLoading={isLoading}
+              bgGradient="linear(to-r,cyan.700,cyan.500,teal.300)"
+              _hover={{ bg: "teal.400" }}
+              color="#FDFDFD"
+              transition="all 500ms"
+              w="75%"
+              mx="auto"
             >
               Submit
             </Button>
+            <Text fontSize="sm" px={2}>
+              Already a member?
+              <Link to="/signin" className="signup_link">
+                Sign in here
+              </Link>
+            </Text>
             <Checkbox
               colorScheme="green"
               defaultChecked={isCheckboxChecked}

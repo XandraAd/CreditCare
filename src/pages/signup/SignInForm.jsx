@@ -44,15 +44,18 @@ function SignInForm() {
       });
       toast({
         description: "Successfully Logged-in",
-        duration: 3000,
+        duration: 5000,
         status: "success",
-        colorScheme: "green",
+        variant: "left-accent",
+        colorScheme: "teal",
       });
     } catch (error) {
       toast({
-        description: "User Not Found",
-        duration: 3000,
+        title: "User Not Found",
+        description: "Please Login with the correct credentials or Click on Sign up to Register",
+        duration: 5000,
         status: "error",
+        variant: "left-accent",
         colorScheme: "red",
       });
       setError(true);
@@ -63,11 +66,11 @@ function SignInForm() {
 
   return (
     <Box className="backgroundStyle">
-      <Box p={4} className="formContainerStyle">
+      <Box p={4} className="formContainerStyle" h="65vh" w={{base: "full", lg: "50%"}}>
         <form onSubmit={handleSubmit} className="formStyle">
           <Center>
-            <Heading as="h3" size="md" mb="10px">
-              Login
+            <Heading size="lg" mb={5} bgGradient="linear(to-r,cyan.700,cyan.500,teal.300)" bgClip="text">
+              Credit Care
             </Heading>
             {error && (
               <Text color="red.400" fontWeight="semibold">
@@ -96,7 +99,12 @@ function SignInForm() {
             </FormControl>
             <Button
               type="submit"
-              colorScheme="blue"
+              bgGradient="linear(to-r,cyan.700,cyan.500,teal.300)"
+              _hover={{ bg: "teal.400" }}
+              color="#FDFDFD"
+              transition="all 500ms"
+              w="75%"
+              mx="auto"
               size="lg"
               mb="0"
               isLoading={isLoading}
