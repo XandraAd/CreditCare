@@ -18,7 +18,6 @@ import {
   Input,
   Heading,
   Icon,
-  Image
 } from "@chakra-ui/react";
 import { NavLink as RouterLink } from "react-router-dom";
 import { BellIcon } from "@chakra-ui/icons";
@@ -29,9 +28,6 @@ import { FcCalculator } from "react-icons/fc";
 import { MdOutlinePayment } from "react-icons/md";
 import { BsCalendar3 } from "react-icons/bs";
 import { HiMenuAlt3 } from "react-icons/hi";
-import {GrScorecard} from "react-icons/gr";
-
-import Logo from "../assets/png/logo-color.png";
 import { logout } from "../config/firebase";
 
 const navItems = [
@@ -137,18 +133,28 @@ function SideNav() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
 
-  const [greetText, setGreetText] = useState("");
-  const currentDate = useMemo(() => new Date(), []);
-  const day = currentDate.toLocaleDateString("default", { weekday: "long" });
-  const month = currentDate.toLocaleString("default", { month: "long" });
-  const date = `${day}, ${month} ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
+  // const [greetText, setGreetText] = useState("");
+  // const currentDate = useMemo(() => new Date(), []);
+  // const day = currentDate.toLocaleDateString("default", { weekday: "long" });
+  // const month = currentDate.toLocaleString("default", { month: "long" });
+  // const date = `${day}, ${month} ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
 
-  useEffect(() => {
-    let currentHour = currentDate.getHours();
-    if (currentHour < 12) setGreetText("Good Morning!");
-    else if (currentHour < 18) setGreetText("Good Afternoon!");
-    else setGreetText("Good Evening!");
-  }, [currentDate]);
+  // useEffect(() => {
+  //   let currentHour = currentDate.getHours();
+  //   if (currentHour < 12) setGreetText("Good Morning!");
+  //   else if (currentHour < 18) setGreetText("Good Afternoon!");
+  //   else setGreetText("Good Evening!");
+  // }, [currentDate]);
+
+  const [activeRoute, setActiveRoute] = useState(navItems[0].title);
+
+  const handleRouteChange = (tab) => {
+    setActiveRoute(tab);
+    setTimeout(() => {
+      onClose();
+    }, 500);
+  };
+
   return (
     <>
       <Flex align="center" mt={5} w={{ xl: "75%" }} mx="auto">
@@ -172,30 +178,71 @@ function SideNav() {
         finalFocusRef={btnRef}
         size={{ base: "full", lg: "xs" }}
       >
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>Credit Care</DrawerHeader>
+        <DrawerOverlay
+          backdropFilter="blur(2px)"
+          backgroundColor="rgba(0, 0, 0, 0.5)"
+        />
+        <DrawerContent bgColor="gray.100" px="12.5vw">
+          <Flex mt={4} align="center" px={5}>
+            <Heading
+              fontSize="2xl"
+              textTransform="uppercase"
+              bgGradient="linear(to-r,cyan.700,cyan.500,teal.300)"
+              bgClip="text"
+            >
+              Credit Care
+            </Heading>
+            <Button
+              variant="solid"
+              bgGradient="linear(to-r,teal.400,teal.300,teal.200)"
+              transition={"all 1500ms"}
+              color="gray.50"
+              type="submit"
+              onClick={handleLogout}
+              isLoading={isLoading}
+              _hover={{ bg: "teal.400" }}
+              ms="auto"
+              fontWeight="bold"
+              rounded="lg"
+              textTransform="uppercase"
+              shadow="lg"
+            >
+              Logout
+            </Button>
+          </Flex>
 
-          <DrawerBody mt={10} border="1px">
-            {navItems.map((navItem, index) => (
-              <Flex
-                key={index}
-                as={Link}
-                to={navItem.path}
-                onClick={() => onClose()}
-                mb={2}
-                fontSize="xl"
-                _hover={{ bgColor: "#0062ff22" }}
-                p={3}
-                rounded="lg"
-                align="center"
-                gap={4}
-              >
-                {navItem.icon}
-                {navItem.title}
-              </Flex>
-            ))}
+          <DrawerBody>
+            <Flex bg="#FDFDFD" mt={5} p={1} rounded="lg" shadow="sm">
+              {navItems.map((navItem, index) => (
+                <Flex
+                  key={index}
+                  as={Link}
+                  to={navItem.path}
+                  onClick={() => handleRouteChange(navItem.title)}
+                  textTransform="uppercase"
+                  bg={
+                    activeRoute === navItem.title ? "gray.100" : "transparent"
+                  }
+                  shadow={activeRoute === navItem.title ? "lg" : "none"}
+                  color={
+                    activeRoute === navItem.title ? navItem.color : "gray.400"
+                  }
+                  fontWeight={
+                    activeRoute === navItem.title ? "bold" : "semibold"
+                  }
+                  p={3}
+                  rounded="lg"
+                  align="center"
+                  fontSize="lg"
+                  justify="center"
+                  gap={4}
+                  w="full"
+                >
+                  {navItem.icon}
+                  <Text fontSize="sm">{navItem.title}</Text>
+                </Flex>
+              ))}
+            </Flex>
           </DrawerBody>
 
           {/* <DrawerFooter>
