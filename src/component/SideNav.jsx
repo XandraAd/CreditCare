@@ -143,7 +143,7 @@ function SideNav() {
   }, [currentDate]);
   return (
     <>
-      <Flex align="center">
+      <Flex align="center" mt={5} w={{xl: "75%"}} mx="auto">
         <Tooltip label="menu" hasArrow>
           <Button
             ref={btnRef}
@@ -169,7 +169,7 @@ function SideNav() {
           <DrawerCloseButton />
           <DrawerHeader>Credit Care</DrawerHeader>
 
-          <DrawerBody mt={10}>
+          <DrawerBody mt={10} border="1px">
             {navItems.map((navItem, index) => (
               <Flex
                 key={index}
@@ -177,7 +177,7 @@ function SideNav() {
                 to={navItem.path}
                 onClick={() => onClose()}
                 mb={2}
-                fontSize="2xl"
+                fontSize="xl"
                 _hover={{ bgColor: "#0062ff22" }}
                 p={3}
                 rounded="lg"
