@@ -19,6 +19,7 @@ import {
   Avatar,
   AvatarBadge,
   Input,
+  Image
 } from "@chakra-ui/react";
 import { NavLink as RouterLink } from "react-router-dom";
 import { BellIcon } from "@chakra-ui/icons";
@@ -29,6 +30,9 @@ import { CiCalculator1 } from "react-icons/ci";
 import { MdOutlinePayment } from "react-icons/md";
 import { BsCalendar3 } from "react-icons/bs";
 import { HiMenuAlt3 } from "react-icons/hi";
+import {GrScorecard} from "react-icons/gr";
+
+import Logo from "../assets/png/logo-color.png";
 import { logout } from "../config/firebase";
 
 const navItems = [
@@ -55,7 +59,7 @@ const navItems = [
   {
     title: "Credit Score",
     path: "creditScore",
-    icon: <BsCalendar3 />,
+    icon: <GrScorecard />,
   },
 ];
 
@@ -134,6 +138,7 @@ function SideNav() {
   const day = currentDate.toLocaleDateString("default", { weekday: "long" });
   const month = currentDate.toLocaleString("default", { month: "long" });
   const date = `${day}, ${month} ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
+  
 
   useEffect(() => {
     let currentHour = currentDate.getHours();
@@ -167,9 +172,9 @@ function SideNav() {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Credit Care</DrawerHeader>
+          <Image src={Logo} style={{ width: '300px', height: '200px' }}/>
 
-          <DrawerBody mt={10} border="1px">
+          <DrawerBody border="2px" borderColor="blue.400">
             {navItems.map((navItem, index) => (
               <Flex
                 key={index}
