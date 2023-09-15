@@ -29,7 +29,12 @@ import { BsPlusLg, BsCarFront } from "react-icons/bs";
 import { CircularProgressBar } from "@tomickigrzegorz/react-circular-progress-bar";
 import { nanoid } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
-import { addFunction, updateFunction } from "../slices/functionSlice";
+import {
+  addFunction,
+  calculatePaymentEstimate,
+  calculateTotalLoan,
+  updateFunction,
+} from "../slices/functionSlice";
 import { MdDashboard } from "react-icons/md";
 import { IoMdPeople } from "react-icons/io";
 import { FcHome, FcBusiness } from "react-icons/fc";
@@ -42,7 +47,7 @@ function LoanCard({ onEditBudget, searchQuery }) {
   const tabNames = [
     {
       name: "All",
-      icon: <Icon as={MdDashboard} color="purple.400"/>,
+      icon: <Icon as={MdDashboard} color="purple.400" />,
       color: "purple.400",
       bgTransparent: "purple.100",
     },
@@ -72,7 +77,7 @@ function LoanCard({ onEditBudget, searchQuery }) {
     },
   ];
 
-  const [activeTab, setActiveTab] = useState(tabNames[2].name);
+  const [activeTab, setActiveTab] = useState(tabNames[0].name);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -107,22 +112,16 @@ function LoanCard({ onEditBudget, searchQuery }) {
     ));
   };
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(calculateTotalLoan());
+  }, [dispatch]);
+
   const filteredLoans =
     activeTab === "All"
       ? state
       : state.filter((loan) => loan.name === activeTab);
-
-  // const after = {
-  //   content: '""',
-  //   position: "absolute",
-  //   top: 0,
-  //   left: 0,
-  //   width: "3.5rem",
-  //   height: "3.5rem",
-  //   borderRadius: "50%",
-  //   backgroundColor: "#9e9e9e94",
-  //   color: "#9e9e9e94",
-  // }
 
   return (
     <>
@@ -159,17 +158,6 @@ function LoanCard({ onEditBudget, searchQuery }) {
         ) : (
           <Flex flexDir={{ base: "column", lg: "row" }} gap={8}>
             {filteredLoans.map((loan) => {
-              const principal = parseFloat(loan.loanAmount);
-              const rate = parseFloat(loan.loanRate) / 100;
-              const totalLoan = principal + principal * rate;
-              // Calculate the estimated payment amount based on payment frequency
-              const paymentEstimate = () => {
-                if (loan.paymentFrequency === "Weekly") {
-                  return (totalLoan / 52).toFixed(2); // Weekly payment
-                } else {
-                  return (totalLoan / 12).toFixed(2); // Monthly payment (assuming 12 months in a year)
-                }
-              };
               return (
                 <Box
                   w="16rem"
@@ -194,7 +182,7 @@ function LoanCard({ onEditBudget, searchQuery }) {
                         bgClip="text"
                         fontWeight="semibold"
                       >
-                        {paymentEstimate()}
+                        {loan.paymentEstimate}
                       </Text>
                       <Text color="gray.400" fontWeight="semibold" ms="auto">
                         GHS
@@ -214,7 +202,7 @@ function LoanCard({ onEditBudget, searchQuery }) {
                         bgClip="text"
                         fontWeight="semibold"
                       >
-                        {totalLoan.toFixed(2)}
+                        {parseFloat(loan.totalLoan).toFixed(2)}
                       </Text>
                       <Text color="gray.400" fontWeight="semibold" ms="auto">
                         GHS
@@ -234,7 +222,7 @@ function LoanCard({ onEditBudget, searchQuery }) {
                         bgClip="text"
                         fontWeight="semibold"
                       >
-                        {loan.loanAmount}
+                        {parseFloat(loan.loanAmount).toFixed(2)}
                       </Text>
                       <Text color="gray.400" fontWeight="semibold" ms="auto">
                         GHS
@@ -246,7 +234,7 @@ function LoanCard({ onEditBudget, searchQuery }) {
                       color="gray.400"
                       fontWeight="semibold"
                     >
-                      Interest Rate
+                      Interest Rate Per Year
                     </Text>
                     <Flex gap={5} align="center" fontSize="lg" lineHeight={8}>
                       <Text
@@ -288,7 +276,14 @@ function LoanCard({ onEditBudget, searchQuery }) {
   );
 }
 
-function ModalForm({ closeForm, initialData, onSubmit }) {
+function ModalForm({
+  closeForm,
+  initialData,
+  onSubmit,
+  dispatchTotalLoan,
+  dispatchPaymentEstimate,
+}) {
+
   const [budgetData, setBudgetData] = useState(
     initialData || {
       id: nanoid(),
@@ -299,6 +294,9 @@ function ModalForm({ closeForm, initialData, onSubmit }) {
       paymentFrequency: "",
       startDate: "",
       endDate: "",
+      totalLoan: 0,
+      paymentEstimate: 0,
+      status: "Pending",
     }
   );
 
@@ -316,6 +314,8 @@ function ModalForm({ closeForm, initialData, onSubmit }) {
     if (budgetData.name.trim() === "" && budgetData.amount.trim() === "") {
       return;
     }
+    dispatchTotalLoan(budgetData);
+    dispatchPaymentEstimate(budgetData);
     onSubmit(budgetData);
   };
 
@@ -445,13 +445,6 @@ const Loans = () => {
     onOpen();
   };
 
-  //use effect hook is a better approach for settling time conflict and persistence caused by the edit form resetting onClose. this is because we are using the same form for handling both edit and adding budget data.
-  // useEffect(() => {
-  //   if (!isOpen) {
-  //     setSelectedBudget(null); // Reset selectedBudget when modal is closed
-  //   }
-  // }, [isOpen]);
-
   const dispatch = useDispatch();
 
   const toast = useToast();
@@ -486,13 +479,24 @@ const Loans = () => {
         isClosable: true,
       });
     }
+    dispatch(calculateTotalLoan(updatedBudget));
+    dispatch(calculatePaymentEstimate(updatedBudget));
     onClose();
   };
 
-  const handleAddBudget = () => {
-    setSelectedBudget(null); // Clear selectedBudget when opening for adding
-    onOpen();
-  };
+  // const handleAddBudget = () => {
+  //   setSelectedBudget(null); // Clear selectedBudget when opening for adding
+  //   onOpen();
+  // };
+
+  //  use effect hook is an alternative approach for settling time conflict and persistence
+  //  caused by the edit form resetting onClose. this is because we are using the same form for handling
+  //  both edit and adding budget data.
+  useEffect(() => {
+    if (!isOpen) {
+      setSelectedBudget(null); // Reset selectedBudget when modal is closed
+    }
+  }, [isOpen]);
 
   return (
     <>
@@ -512,7 +516,7 @@ const Loans = () => {
         <LoanCard onEditBudget={handleEditBudget} />
         <Icon
           as={BsPlusLg}
-          onClick={handleAddBudget}
+          onClick={onOpen}
           fontSize="5xl"
           rounded="full"
           borderColor="#F8F8F8"
@@ -537,6 +541,8 @@ const Loans = () => {
               initialData={selectedBudget}
               closeForm={onClose}
               onSubmit={handleUpdateBudget}
+              dispatchTotalLoan={calculateTotalLoan}
+              dispatchPaymentEstimate={calculatePaymentEstimate}
             />
           </ModalBody>
         </ModalContent>
