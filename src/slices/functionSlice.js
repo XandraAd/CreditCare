@@ -1,17 +1,7 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  budget: [
-    {
-        id: nanoid(),
-        name: "",
-        loanType: "0",
-        loanAmount: "0",
-        loanRate: "0",
-        paymentFrequency: "",
-        startDate: "",
-    },
-  ],
+  budget: [],
   enabledCardId: null,
   isBudgetButtonEnabled: false,
   totalBudget: 0,
@@ -60,12 +50,6 @@ const functionSlice = createSlice({
       state.enabledCardId = null;
       state.isBudgetButtonEnabled = false;
     },
-    enableBudgetButton: (state) => {
-      state.isBudgetButtonEnabled = true;
-    },
-    disableBudgetButton: (state) => {
-      state.isBudgetButtonEnabled = false;
-    },
     addFunction: (state, action) => {
       state.budget = [...state.budget, action.payload];
     },
@@ -95,6 +79,25 @@ const functionSlice = createSlice({
     setSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
     },
+    calculateTotalLoan: (state) => {
+      state.budget.forEach((budget) => {
+        const principal = parseFloat(budget.loanAmount);
+        const rate = parseFloat(budget.loanRate) / 100 / 12;
+        (budget.totalLoan) = principal + principal * rate;
+        // console.log(`Calculating total loan for budget ${budget.totalLoan}`);
+      });
+    },
+    calculatePaymentEstimate: (state) => {
+      state.budget.forEach((budget) => {
+        if (budget.paymentFrequency === "Weekly") {
+          budget.paymentEstimate = (budget.totalLoan / 52).toFixed(2);
+        } else {
+          budget.paymentEstimate = (budget.totalLoan / 12).toFixed(2);
+        }
+        // console.log(`Calculating payment estimate for budget ${budget.paymentEstimate}`);
+        // console.log(`Payment Frequency: ${budget.paymentFrequency}`)
+      });
+    },
     //   other actions..
   },
 });
@@ -110,6 +113,8 @@ export const {
   disableBudgetButton,
   calculateTotalBudget,
   calculateTotalFinancedBudget,
+  calculateTotalLoan,
+  calculatePaymentEstimate,
 } = functionSlice.actions;
 
 export default functionSlice.reducer;

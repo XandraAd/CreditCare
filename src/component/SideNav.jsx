@@ -136,19 +136,6 @@ function SideNav() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
 
-  // const [greetText, setGreetText] = useState("");
-  // const currentDate = useMemo(() => new Date(), []);
-  // const day = currentDate.toLocaleDateString("default", { weekday: "long" });
-  // const month = currentDate.toLocaleString("default", { month: "long" });
-  // const date = `${day}, ${month} ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
-
-  // useEffect(() => {
-  //   let currentHour = currentDate.getHours();
-  //   if (currentHour < 12) setGreetText("Good Morning!");
-  //   else if (currentHour < 18) setGreetText("Good Afternoon!");
-  //   else setGreetText("Good Evening!");
-  // }, [currentDate]);
-
   const [activeRoute, setActiveRoute] = useState(navItems[0].title);
 
   const handleRouteChange = (tab) => {
@@ -182,10 +169,10 @@ function SideNav() {
         size={{ base: "full", lg: "xs" }}
       >
         <DrawerOverlay
-          backdropFilter="blur(2px)"
+          backdropFilter="blur(8px)"
           backgroundColor="rgba(0, 0, 0, 0.5)"
         />
-        <DrawerContent bgColor="gray.100" px="12.5vw">
+        <DrawerContent bgColor="gray.100" px={{xl: "12.5vw"}}>
           <Flex mt={4} align="center" px={5}>
             <Heading
               fontSize="2xl"
@@ -197,9 +184,9 @@ function SideNav() {
             </Heading>
             <Button
               variant="solid"
-              bgGradient="linear(to-r,teal.400,teal.300,teal.200)"
-              transition={"all 1500ms"}
-              color="gray.50"
+              bgGradient="linear(to-b,teal.400,teal.300,teal.200)"
+              transition={"all 1000ms"}
+              color="#FDFDFD"
               type="submit"
               onClick={handleLogout}
               isLoading={isLoading}
@@ -215,7 +202,7 @@ function SideNav() {
           </Flex>
 
           <DrawerBody>
-            <Flex bg="#FDFDFD" mt={5} p={1} rounded="lg" shadow="sm">
+            <Flex bg="#FDFDFD" mt={5} p={1} rounded="lg" shadow="sm" border="2px" borderColor="gray.200">
               {navItems.map((navItem, index) => (
                 <Flex
                   key={index}
@@ -226,7 +213,7 @@ function SideNav() {
                   bg={
                     activeRoute === navItem.title ? "gray.100" : "transparent"
                   }
-                  shadow={activeRoute === navItem.title ? "lg" : "none"}
+                  shadow={activeRoute === navItem.title ? "xl" : "none"}
                   color={
                     activeRoute === navItem.title ? navItem.color : "gray.400"
                   }
