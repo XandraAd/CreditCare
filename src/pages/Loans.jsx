@@ -21,12 +21,10 @@ import {
   useDisclosure,
   Icon,
   Divider,
-  Container,
   useToast,
 } from "@chakra-ui/react";
 import { FiEdit3 } from "react-icons/fi";
 import { BsPlusLg, BsCarFront } from "react-icons/bs";
-import { CircularProgressBar } from "@tomickigrzegorz/react-circular-progress-bar";
 import { nanoid } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -156,7 +154,7 @@ function LoanCard({ onEditBudget, searchQuery }) {
             </Flex>
           </>
         ) : (
-          <Flex flexDir={{ base: "column", lg: "row" }} gap={8}>
+          <Flex flexDir={{ base: "column", lg: "row" }} gap={8} flexWrap="wrap">
             {filteredLoans.map((loan) => {
               return (
                 <Box
@@ -173,8 +171,9 @@ function LoanCard({ onEditBudget, searchQuery }) {
                       fontSize={"sm"}
                       color="gray.400"
                       fontWeight="semibold"
+                      textTransform="capitalize"
                     >
-                      Estimated Payment
+                      Estimated {loan.paymentFrequency} Payment
                     </Text>
                     <Flex gap={5} align="center" fontSize="lg" lineHeight={8}>
                       <Text
@@ -297,6 +296,7 @@ function ModalForm({
       totalLoan: 0,
       paymentEstimate: 0,
       status: "Pending",
+      loanPaid: 0,
     }
   );
 
@@ -325,8 +325,8 @@ function ModalForm({
   ];
 
   const payfrequencies = [
-    { label: "Weekly", value: "weekly" },
-    { label: "Monthly", value: "monthly" },
+    { label: "Weekly", value: "Weekly" },
+    { label: "Monthly", value: "Monthly" },
   ];
 
   const toast = useToast();
@@ -373,7 +373,7 @@ function ModalForm({
       </HStack>
       <HStack mt={4} gap={5}>
         <FormControl id="loanRate">
-          <FormLabel>Interest Rate:</FormLabel>
+          <FormLabel>Interest Rate Per Year:</FormLabel>
           <Input
             type="number"
             name="loanRate"
@@ -388,6 +388,7 @@ function ModalForm({
             value={budgetData.paymentFrequency}
             onChange={handleChange}
             name="paymentFrequency"
+            placeholder="Weekly / Monthly"
           >
             {payfrequencies.map((frequency) => (
               <option key={frequency.value} value={frequency.value}>

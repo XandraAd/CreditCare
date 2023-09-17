@@ -84,7 +84,7 @@ const functionSlice = createSlice({
         const principal = parseFloat(budget.loanAmount);
         const rate = parseFloat(budget.loanRate) / 100 / 12;
         (budget.totalLoan) = principal + principal * rate;
-        console.log(`Calculating total loan for budget ${budget.totalLoan}`);
+        // console.log(`Calculating total loan for budget ${budget.totalLoan}`);
       });
     },
     calculatePaymentEstimate: (state) => {
@@ -94,7 +94,8 @@ const functionSlice = createSlice({
         } else {
           budget.paymentEstimate = (budget.totalLoan / 12).toFixed(2);
         }
-        console.log(`Calculating payment estimate for budget ${budget.paymentEstimate}`);
+        // console.log(`Calculating payment estimate for budget ${budget.paymentEstimate}`);
+        // console.log(`Payment Frequency: ${budget.paymentFrequency}`)
       });
     },
     //   other actions..

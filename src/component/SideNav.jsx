@@ -181,9 +181,9 @@ function SideNav() {
             </Heading>
             <Button
               variant="solid"
-              bgGradient="linear(to-r,teal.400,teal.300,teal.200)"
-              transition={"all 1500ms"}
-              color="gray.50"
+              bgGradient="linear(to-b,teal.400,teal.300,teal.200)"
+              transition={"all 1000ms"}
+              color="#FDFDFD"
               type="submit"
               onClick={handleLogout}
               isLoading={isLoading}
