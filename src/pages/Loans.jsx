@@ -260,11 +260,7 @@ function ModalForm({
       endDate: "",
       totalLoan: 0,
       paymentEstimate: 0,
-      status: {
-        Pending: "Pending",
-        In_Progress: "In-Progress",
-        Paid: 'Paid',
-      },
+      status : "Pending",
       loanPaid: 0,
       loanPercentagePaid: 0,
     }

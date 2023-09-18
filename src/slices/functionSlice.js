@@ -11,11 +11,6 @@ const initialState = {
   //other states...
 };
 
-export const updateLoanPercentage = (payload) => ({
-  type: 'budgetExpense/updateLoanPercentage',
-  payload,
-});
-
 export const addFinanceData = (payload) => {
   return {
     type: 'budgetExpense/addFinanceData',
@@ -44,18 +39,8 @@ const functionSlice = createSlice({
         budget.financeDetails.push(financeData);
       }
     },
-    updateLoanPercentage: (state, action) => {
-      const { id, percentage } = action.payload;
-      const budgetItem = state.budget.find((budget) => budget.id === id);
-      if (budgetItem) {
-        budgetItem.loanPercentagePaid = percentage;
-      }
-    },
     updateHasPaid: (state, action) => {
       state.hasPaid = action.payload;
-    },
-    updateStatus: (state, action) => {
-      state.budget.status = action.payload;
     },
     enableCard: (state, action) => {
       state.enabledCardId = action.payload;
@@ -113,6 +98,28 @@ const functionSlice = createSlice({
         // console.log(`Payment Frequency: ${budget.paymentFrequency}`)
       });
     },
+    updatePaymentPercentage: (state, action)=> {
+      const budgetId = action.payload;
+      const budget = state.budget.find((budget) => budget.id === budgetId);
+      if (budget) {
+        const paymentEstimate = parseFloat(budget.paymentEstimate);
+        const totalLoanAmount = parseFloat(budget.totalLoan);
+        const currentLoanPercentage = parseFloat(budget.loanPercentagePaid);
+        
+        // Calculate the additional percentage paid for this payment
+        const additionalPercentage = (paymentEstimate / totalLoanAmount) * 100;
+        
+        // Update the loanPercentagePaid by accumulating the additional percentage
+        budget.loanPercentagePaid = Math.min(currentLoanPercentage + additionalPercentage, 100).toFixed(0);
+        
+        if (budget.loanPercentagePaid > 0 && budget.loanPercentagePaid < 100) {
+          budget.status = "In Progress";
+        } else if (budget.loanPercentagePaid === 100) {
+          budget.status = "Paid";
+        }
+      }
+      
+    }
     //   other actions..
   },
 });
@@ -123,12 +130,12 @@ export const {
   deleteFunction,
   enableCard,
   updateHasPaid,
-  updateStatus,
   clearEnabledCard,
   enableBudgetButton,
   disableBudgetButton,
   calculateTotalBudget,
   calculateTotalFinancedBudget,
+  updatePaymentPercentage,
   calculateTotalLoan,
   calculatePaymentEstimate,
 } = functionSlice.actions;
