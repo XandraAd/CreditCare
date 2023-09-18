@@ -11,6 +11,11 @@ const initialState = {
   //other states...
 };
 
+export const updateLoanPercentage = (payload) => ({
+  type: 'budgetExpense/updateLoanPercentage',
+  payload,
+});
+
 export const addFinanceData = (payload) => {
   return {
     type: 'budgetExpense/addFinanceData',
@@ -39,8 +44,18 @@ const functionSlice = createSlice({
         budget.financeDetails.push(financeData);
       }
     },
+    updateLoanPercentage: (state, action) => {
+      const { id, percentage } = action.payload;
+      const budgetItem = state.budget.find((budget) => budget.id === id);
+      if (budgetItem) {
+        budgetItem.loanPercentagePaid = percentage;
+      }
+    },
     updateHasPaid: (state, action) => {
       state.hasPaid = action.payload;
+    },
+    updateStatus: (state, action) => {
+      state.budget.status = action.payload;
     },
     enableCard: (state, action) => {
       state.enabledCardId = action.payload;
@@ -108,6 +123,7 @@ export const {
   deleteFunction,
   enableCard,
   updateHasPaid,
+  updateStatus,
   clearEnabledCard,
   enableBudgetButton,
   disableBudgetButton,

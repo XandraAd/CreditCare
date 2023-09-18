@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Drawer,
   DrawerBody,
@@ -89,14 +88,11 @@ const Navigation = (onSearch) => {
             </Button>
           </Flex>
         </Container>
-
-        <Box>
+        <HStack spacing={10}>
           <ChakraLink as={RouterLink} to="#">
             <BellIcon boxSize={8} />
           </ChakraLink>
-        </Box>
-        <hr />
-        <HStack>
+        
           <Avatar boxSize="2rem">
             <AvatarBadge boxSize="1em" bg="green.500" />
           </Avatar>
@@ -184,7 +180,7 @@ function SideNav() {
             </Heading>
             <Button
               variant="solid"
-              bgGradient="linear(to-b,teal.400,teal.300,teal.200)"
+              bgGradient="linear(to-l,teal.400,teal.300,teal.200)"
               transition={"all 1000ms"}
               color="#FDFDFD"
               type="submit"
@@ -215,7 +211,7 @@ function SideNav() {
                   }
                   shadow={activeRoute === navItem.title ? "xl" : "none"}
                   color={
-                    activeRoute === navItem.title ? navItem.color : "gray.400"
+                    activeRoute === navItem.title ? navItem.color : "gray.600"
                   }
                   fontWeight={
                     activeRoute === navItem.title ? "bold" : "semibold"
@@ -234,14 +230,6 @@ function SideNav() {
               ))}
             </Flex>
           </DrawerBody>
-
-          {/* <DrawerFooter>
-            <Box fontSize="xs" me="auto">
-              <Text>{greetText}</Text>
-              <Text>{date}</Text>
-            </Box>
-            
-          </DrawerFooter> */}
         </DrawerContent>
       </Drawer>
     </>
