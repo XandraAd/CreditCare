@@ -4,9 +4,12 @@ import {
   Button,
   Divider,
   Flex,
+  FormControl,
+  FormLabel,
   Heading,
   Icon,
   IconButton,
+  Input,
   Menu,
   MenuButton,
   MenuItem,
@@ -26,16 +29,19 @@ import {
   Thead,
   Tr,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { PiDotsThreeVerticalBold } from "react-icons/pi";
 import { TbCurrencyCent } from "react-icons/tb";
 import { AiOutlineEye, AiOutlinePrinter } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { CircularProgressBar } from "@tomickigrzegorz/react-circular-progress-bar";
-
+import { PaystackButton } from "react-paystack";
+import { updateLoanPercentage } from "../slices/functionSlice";
+// import { updateStatus } from "../slices/functionSlice";
 
 const Payment = () => {
   const state = useSelector((state) => state.loanReducer.budget);
@@ -47,11 +53,6 @@ const Payment = () => {
   const [paymentFormModalOpen, setPaymentFormModalOpen] = useState(
     Array(state.length).fill(false)
   );
-
-  const loanPaid = state.loanPaid;
-  const loanAmountToPay = state.totalLoan;
-  const loanPercentagePaid = loanPaid / loanAmountToPay;
-  const isNan = isNaN(loanPercentagePaid) ? 0 : loanPercentagePaid;
 
   const tableHeadings = [
     "Loan ID",
@@ -75,6 +76,38 @@ const Payment = () => {
     const updatedPaymentFormModalOpen = [...paymentFormModalOpen];
     updatedPaymentFormModalOpen[index] = false;
     setPaymentFormModalOpen(updatedPaymentFormModalOpen);
+  };
+
+  const publicKey = "pk_test_81a7c512f5cd94cff72aa9d7ea21732bc14c07b3";
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+
+
+
+  const toast = useToast();
+  const dispatch = useDispatch();
+
+  const componentProps = {
+    email,
+    currency: "GHS",
+    metadata: {
+      name,
+    },
+    publicKey,
+    text: "Pay Now",
+    onSuccess: () => {
+      toast({
+        title: "Payment Successful",
+        description: "Come back again soon.",
+        status: "success",
+        duration: 5000,
+        colorScheme: "teal",
+        variant: "left-accent",
+        position: "bottom-right",
+        isClosable: true,
+      });
+    },
+    onClose: () => alert("Wait! Don't leave :("),
   };
 
   return (
@@ -188,7 +221,7 @@ const Payment = () => {
                           textTransform="uppercase"
                           fontWeight="semibold"
                         >
-                          {tableData.status}
+                          {tableData.status.Pending}
                         </Text>
                       </Td>
                       <Td textAlign="center">
@@ -254,7 +287,7 @@ const Payment = () => {
                               ]}
                               cut={30}
                               round
-                              percent={isNan}
+                              percent={tableData.loanPercentagePaid}
                               rotation={144}
                             >
                               <Text
@@ -266,7 +299,13 @@ const Payment = () => {
                                 of Total Loan Paid
                               </Text>
                             </CircularProgressBar>
-                            <Box p={4} bg="gray.100" rounded="xl" w="80%" shadow="lg">
+                            <Box
+                              p={4}
+                              bg="gray.100"
+                              rounded="xl"
+                              w="80%"
+                              shadow="lg"
+                            >
                               <Text
                                 fontSize={"sm"}
                                 textTransform="capitalize"
@@ -373,13 +412,65 @@ const Payment = () => {
                     <Modal
                       isOpen={paymentFormModalOpen[i]}
                       onClose={() => handleClosePaymentFormModal(i)}
+                      size="xl"
+                      isCentered
                     >
-                      <ModalOverlay />
+                      <ModalOverlay
+                        bg="blackAlpha.300"
+                        backdropFilter="blur(5px) hue-rotate(90deg)"
+                      />
                       <ModalContent textAlign="center">
-                        <ModalHeader>{tableData.name}</ModalHeader>
+                        <ModalHeader>{tableData.name} Payment</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
-                              Kindly fill form below
+                          <Flex
+                            as="form"
+                            maxW={96}
+                            mx="auto"
+                            fontWeight="bold"
+                            flexDir="column"
+                            gap={5}
+                          >
+                            <Text textAlign="start">
+                              Total Amount: {tableData.paymentEstimate}
+                            </Text>
+                            <FormControl>
+                              <FormLabel>Full Name</FormLabel>
+                              <Input
+                                type="text"
+                                id="name"
+                                onChange={(e) => setName(e.target.value)}
+                              />
+                            </FormControl>
+                            <FormControl>
+                              <FormLabel>Email address</FormLabel>
+                              <Input
+                                type="email"
+                                onChange={(e) => setEmail(e.target.value)}
+                              />
+                            </FormControl>
+                          </Flex>
+                          <Flex
+                            w="fit-content" // Adjust the width as needed
+                            mx="auto"
+                            my={5}
+                            bgGradient="linear(to-l,teal.400,teal.300,teal.200)"
+                            _hover={{ bg: "teal.400" }}
+                            transition="all 1000ms"
+                            color="#FDFDFD"
+                            fontWeight="bold"
+                            shadow="lg"
+                            px={5}
+                            py={2}
+                            rounded="lg"
+                          >
+                            <PaystackButton
+                              {...componentProps}
+                              amount={
+                                parseFloat(tableData.paymentEstimate) * 100
+                              }
+                            />
+                          </Flex>
                         </ModalBody>
                       </ModalContent>
                     </Modal>

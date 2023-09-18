@@ -88,7 +88,7 @@ function LoanCard({ onEditBudget, searchQuery }) {
         onClick={() => handleTabChange(category.name)}
         cursor="pointer"
         fontWeight={activeTab === category.name ? "bold" : "semibold"}
-        color={activeTab === category.name ? category.color : "gray.400"}
+        color={activeTab === category.name ? category.color : "gray.600"}
         borderBottom={
           activeTab === category.name ? "2px solid teal.300" : "none"
         }
@@ -146,7 +146,6 @@ function LoanCard({ onEditBudget, searchQuery }) {
                 textTransform="uppercase"
                 mt={4}
                 fontSize="sm"
-                fontWeight="semibold"
                 color="gray.400"
               >
                 No loan portfolio in this category.
@@ -165,87 +164,54 @@ function LoanCard({ onEditBudget, searchQuery }) {
                   bg="#FDFDFD"
                   mt={2}
                   key={loan.id}
+                  fontWeight="semibold"
+                  color="gray.600"
                 >
                   <Box p={4}>
-                    <Text
-                      fontSize={"sm"}
-                      color="gray.400"
-                      fontWeight="semibold"
-                      textTransform="capitalize"
-                    >
+                    <Text fontSize={"sm"} textTransform="capitalize">
                       Estimated {loan.paymentFrequency} Payment
                     </Text>
                     <Flex gap={5} align="center" fontSize="lg" lineHeight={8}>
                       <Text
                         bgGradient="linear(to-r,cyan.700,cyan.500,teal.300)"
                         bgClip="text"
-                        fontWeight="semibold"
                       >
                         {loan.paymentEstimate}
                       </Text>
-                      <Text color="gray.400" fontWeight="semibold" ms="auto">
-                        GHS
-                      </Text>
+                      <Text ms="auto">GHS</Text>
                     </Flex>
                     <Divider my={1} />
-                    <Text
-                      fontSize={"sm"}
-                      color="gray.400"
-                      fontWeight="semibold"
-                    >
-                      Total Loan
-                    </Text>
+                    <Text fontSize={"sm"}>Total Loan</Text>
                     <Flex gap={5} align="center" fontSize="lg" lineHeight={8}>
                       <Text
                         bgGradient="linear(to-r,cyan.700,cyan.500,teal.300)"
                         bgClip="text"
-                        fontWeight="semibold"
                       >
                         {parseFloat(loan.totalLoan).toFixed(2)}
                       </Text>
-                      <Text color="gray.400" fontWeight="semibold" ms="auto">
-                        GHS
-                      </Text>
+                      <Text ms="auto">GHS</Text>
                     </Flex>
                     <Divider my={1} />
-                    <Text
-                      fontSize={"sm"}
-                      color="gray.400"
-                      fontWeight="semibold"
-                    >
-                      Principal Loan
-                    </Text>
+                    <Text fontSize={"sm"}>Principal Loan</Text>
                     <Flex gap={5} align="center" fontSize="lg" lineHeight={8}>
                       <Text
                         bgGradient="linear(to-r,cyan.700,cyan.500,teal.300)"
                         bgClip="text"
-                        fontWeight="semibold"
                       >
                         {parseFloat(loan.loanAmount).toFixed(2)}
                       </Text>
-                      <Text color="gray.400" fontWeight="semibold" ms="auto">
-                        GHS
-                      </Text>
+                      <Text ms="auto">GHS</Text>
                     </Flex>
                     <Divider my={1} />
-                    <Text
-                      fontSize={"sm"}
-                      color="gray.400"
-                      fontWeight="semibold"
-                    >
-                      Interest Rate Per Year
-                    </Text>
+                    <Text fontSize={"sm"}>Interest Rate Per Year</Text>
                     <Flex gap={5} align="center" fontSize="lg" lineHeight={8}>
                       <Text
                         bgGradient="linear(to-r,cyan.700,cyan.500,teal.300)"
                         bgClip="text"
-                        fontWeight="semibold"
                       >
                         {loan.loanRate}
                       </Text>
-                      <Text color="gray.400" fontWeight="semibold" ms="auto">
-                        %
-                      </Text>
+                      <Text ms="auto">%</Text>
                     </Flex>
                     <Divider my={1} />
                     <Flex>
@@ -282,7 +248,6 @@ function ModalForm({
   dispatchTotalLoan,
   dispatchPaymentEstimate,
 }) {
-
   const [budgetData, setBudgetData] = useState(
     initialData || {
       id: nanoid(),
@@ -295,8 +260,13 @@ function ModalForm({
       endDate: "",
       totalLoan: 0,
       paymentEstimate: 0,
-      status: "Pending",
+      status: {
+        Pending: "Pending",
+        In_Progress: "In-Progress",
+        Paid: 'Paid',
+      },
       loanPaid: 0,
+      loanPercentagePaid: 0,
     }
   );
 
