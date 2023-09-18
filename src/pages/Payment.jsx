@@ -40,8 +40,7 @@ import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { CircularProgressBar } from "@tomickigrzegorz/react-circular-progress-bar";
 import { PaystackButton } from "react-paystack";
-import { updateLoanPercentage } from "../slices/functionSlice";
-// import { updateStatus } from "../slices/functionSlice";
+import { updatePaymentPercentage } from "../slices/functionSlice";
 
 const Payment = () => {
   const state = useSelector((state) => state.loanReducer.budget);
@@ -95,18 +94,6 @@ const Payment = () => {
     },
     publicKey,
     text: "Pay Now",
-    onSuccess: () => {
-      toast({
-        title: "Payment Successful",
-        description: "Come back again soon.",
-        status: "success",
-        duration: 5000,
-        colorScheme: "teal",
-        variant: "left-accent",
-        position: "bottom-right",
-        isClosable: true,
-      });
-    },
     onClose: () => alert("Wait! Don't leave :("),
   };
 
@@ -212,7 +199,7 @@ const Payment = () => {
                       </Td>
                       <Td>
                         <Text
-                          bg="yellow.200"
+                          bg={tableData.status === "In Progress" ? "yellow.300" : tableData.status === "Paid" ? "green.300" : "red.400"}
                           textAlign="center"
                           fontSize="2xs"
                           px={2}
@@ -221,7 +208,7 @@ const Payment = () => {
                           textTransform="uppercase"
                           fontWeight="semibold"
                         >
-                          {tableData.status.Pending}
+                          {tableData.status}
                         </Text>
                       </Td>
                       <Td textAlign="center">
@@ -287,7 +274,7 @@ const Payment = () => {
                               ]}
                               cut={30}
                               round
-                              percent={tableData.loanPercentagePaid}
+                              percent={tableData.loanPercentagePaid} //initial loan percentage of 0 retrieve from redux state here
                               rotation={144}
                             >
                               <Text
@@ -394,9 +381,8 @@ const Payment = () => {
                               </Text>
                               <Button
                                 w="80%"
-                                bgGradient="linear(to-b,teal.400,teal.300,teal.200)"
-                                _hover={{ bg: "teal.400" }}
-                                transition={"all 1000ms"}
+                                bg="teal.400"
+                                _hover="teal.400"
                                 color="#FDFDFD"
                                 fontWeight="bold"
                                 shadow="lg"
@@ -469,6 +455,11 @@ const Payment = () => {
                               amount={
                                 parseFloat(tableData.paymentEstimate) * 100
                               }
+                              onSuccess={() => {
+                                const budgetId = tableData.id;
+                                dispatch(updatePaymentPercentage(budgetId));
+                              }
+                            }
                             />
                           </Flex>
                         </ModalBody>

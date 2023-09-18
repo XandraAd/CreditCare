@@ -15,7 +15,6 @@ import {
   Avatar,
   AvatarBadge,
   Input,
-  Heading,
   Icon,
   Image,
 } from "@chakra-ui/react";
@@ -170,14 +169,7 @@ function SideNav() {
         />
         <DrawerContent bgColor="gray.100" px={{xl: "12.5vw"}}>
           <Flex mt={4} align="center" px={5}>
-            <Heading
-              fontSize="2xl"
-              textTransform="uppercase"
-              bgGradient="linear(to-r,cyan.700,cyan.500,teal.300)"
-              bgClip="text"
-            >
-              <Image src={Logo} style={{ width: '200px', height: '100px' }}></Image>
-            </Heading>
+            <Image src={Logo} boxSize="100px" objectFit="contain"/>
             <Button
               variant="solid"
               bgGradient="linear(to-l,teal.400,teal.300,teal.200)"
@@ -198,7 +190,7 @@ function SideNav() {
           </Flex>
 
           <DrawerBody>
-            <Flex bg="#FDFDFD" mt={5} p={1} rounded="lg" shadow="sm" border="2px" borderColor="gray.200">
+            <Flex bg="#FDFDFD" p={1} rounded="lg" shadow="sm" border="2px" borderColor="gray.200">
               {navItems.map((navItem, index) => (
                 <Flex
                   key={index}
