@@ -123,7 +123,7 @@ function LoanCard({ onEditBudget, searchQuery }) {
 
   return (
     <>
-      <Box w={{ base: "full", xl: "75%" }} mx="auto">
+      <Box>
         <HStack bg="#FDFDFD" p={1} rounded="lg" shadow="sm" my={4}>
           {renderTabs()}
         </HStack>
@@ -479,7 +479,7 @@ const Loans = () => {
         </Heading>
       </Flex>
 
-      <Flex h="70vh" flexDir="column" mx={8}>
+      <Flex h="70vh" flexDir="column">
         <LoanCard onEditBudget={handleEditBudget} />
         <Icon
           as={BsPlusLg}

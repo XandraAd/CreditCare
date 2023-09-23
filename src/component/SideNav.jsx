@@ -1,35 +1,14 @@
-import {
-  Button,
-  Drawer,
-  DrawerBody,
-  DrawerContent,
-  DrawerOverlay,
-  Flex,
-  Text,
-  Tooltip,
-  useDisclosure,
-  useToast,
-  HStack,
-  Container,
-  Link as ChakraLink,
-  Avatar,
-  AvatarBadge,
-  Input,
-  Icon,
-  Image,
-} from "@chakra-ui/react";
-import { NavLink as RouterLink } from "react-router-dom";
-import { BellIcon } from "@chakra-ui/icons";
-import React, { useState } from "react";
+import { Button, Flex, Text, useToast, Icon, Image, Divider } from "@chakra-ui/react";
+
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { RxDashboard } from "react-icons/rx";
 import { FcCalculator } from "react-icons/fc";
 import { MdOutlinePayment } from "react-icons/md";
 import { BsCalendar3 } from "react-icons/bs";
-import { HiMenuAlt3 } from "react-icons/hi";
-import {MdCreditScore} from "react-icons/md"
+import { MdCreditScore } from "react-icons/md";
 import { logout } from "../config/firebase";
-import Logo from "../assets/png/logo-no-background.png"
+import Logo from "../assets/png/logo-no-background.png";
 
 const navItems = [
   {
@@ -64,43 +43,6 @@ const navItems = [
   },
 ];
 
-const Navigation = (onSearch) => {
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const handleSearch = () => {
-    onSearch(searchTerm);
-  };
-  return (
-    <>
-      <HStack w="full" me="1.5rem" spacing={5}>
-        <Container>
-          <Flex alignItems="center">
-            <Input
-              type="text"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              bg="#FDFDFD"
-            />
-            <Button ml={2} onClick={handleSearch}>
-              Search
-            </Button>
-          </Flex>
-        </Container>
-        <HStack spacing={10}>
-          <ChakraLink as={RouterLink} to="#">
-            <BellIcon boxSize={8} />
-          </ChakraLink>
-        
-          <Avatar boxSize="2rem">
-            <AvatarBadge boxSize="1em" bg="green.500" />
-          </Avatar>
-        </HStack>
-      </HStack>
-    </>
-  );
-};
-
 function SideNav() {
   const toast = useToast();
   const navigate = useNavigate();
@@ -128,102 +70,67 @@ function SideNav() {
       });
     }
   };
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = React.useRef();
 
   const [activeRoute, setActiveRoute] = useState(navItems[0].title);
 
   const handleRouteChange = (tab) => {
     setActiveRoute(tab);
-    setTimeout(() => {
-      onClose();
-    }, 500);
   };
 
   return (
     <>
-      <Flex align="center" mt={5} w={{ xl: "75%" }} mx="auto">
-        <Tooltip label="menu" hasArrow>
-          <Button
-            ref={btnRef}
-            bg="transparent"
-            _hover={{ bg: "#FDFDFD85" }}
-            m={2}
-            onClick={onOpen}
-          >
-            <HiMenuAlt3 fontSize="2rem" />
-          </Button>
-        </Tooltip>
-        <Navigation />
-      </Flex>
-      <Drawer
-        isOpen={isOpen}
-        placement="top"
-        onClose={onClose}
-        finalFocusRef={btnRef}
-        size={{ base: "full", lg: "xs" }}
+      <Flex
+        bg="white"
+        p={1}
+        rounded="lg"
+        shadow="md"
+        flexDir="column"
+        mx={5}
+        h="95vh"
+        w="15%"
+        gap={3}
       >
-        <DrawerOverlay
-          backdropFilter="blur(8px)"
-          backgroundColor="rgba(0, 0, 0, 0.5)"
-        />
-        <DrawerContent bgColor="gray.100" px={{xl: "12.5vw"}}>
-          <Flex mt={4} align="center" px={5}>
-            <Image src={Logo} boxSize="100px" objectFit="contain"/>
-            <Button
-              variant="solid"
-              bgGradient="linear(to-l,teal.400,teal.300,teal.200)"
-              transition={"all 1000ms"}
-              color="#FDFDFD"
-              type="submit"
-              onClick={handleLogout}
-              isLoading={isLoading}
-              _hover={{ bg: "teal.400" }}
-              ms="auto"
-              fontWeight="bold"
-              rounded="lg"
-              textTransform="uppercase"
-              shadow="lg"
-            >
-              Logout
-            </Button>
+        <Image src={Logo} boxSize="80px" objectFit="contain" mx="auto" />
+        <Divider/>
+        {navItems.map((navItem, index) => (
+          <Flex
+            key={index}
+            as={Link}
+            to={navItem.path}
+            onClick={() => handleRouteChange(navItem.title)}
+            textTransform="uppercase"
+            bg={activeRoute === navItem.title ? "gray.200" : "transparent"}
+            shadow={activeRoute === navItem.title ? "lg" : "none"}
+            color={activeRoute === navItem.title ? navItem.color : "gray.600"}
+            fontWeight={activeRoute === navItem.title ? "bold" : "semibold"}
+            p={3}
+            rounded="lg"
+            fontSize="lg"
+            gap={4}
+            w="full"
+          >
+            {navItem.icon}
+            <Text fontSize="sm">{navItem.title}</Text>
           </Flex>
-
-          <DrawerBody>
-            <Flex bg="#FDFDFD" p={1} rounded="lg" shadow="sm" border="2px" borderColor="gray.200">
-              {navItems.map((navItem, index) => (
-                <Flex
-                  key={index}
-                  as={Link}
-                  to={navItem.path}
-                  onClick={() => handleRouteChange(navItem.title)}
-                  textTransform="uppercase"
-                  bg={
-                    activeRoute === navItem.title ? "gray.100" : "transparent"
-                  }
-                  shadow={activeRoute === navItem.title ? "xl" : "none"}
-                  color={
-                    activeRoute === navItem.title ? navItem.color : "gray.600"
-                  }
-                  fontWeight={
-                    activeRoute === navItem.title ? "bold" : "semibold"
-                  }
-                  p={3}
-                  rounded="lg"
-                  align="center"
-                  fontSize="lg"
-                  justify="center"
-                  gap={4}
-                  w="full"
-                >
-                  {navItem.icon}
-                  <Text fontSize="sm">{navItem.title}</Text>
-                </Flex>
-              ))}
-            </Flex>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
+        ))}
+        <Button
+          variant="solid"
+          bgGradient="linear(to-l,teal.400,teal.300,teal.200)"
+          transition={"all 1000ms"}
+          color="#FDFDFD"
+          type="submit"
+          onClick={handleLogout}
+          isLoading={isLoading}
+          _hover={{ bg: "teal.400" }}
+          mt="auto"
+          fontWeight="bold"
+          rounded="lg"
+          textTransform="uppercase"
+          shadow="lg"
+        >
+          Logout
+        </Button>
+      </Flex>
     </>
   );
 }
