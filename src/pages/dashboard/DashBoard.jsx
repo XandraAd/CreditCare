@@ -34,9 +34,9 @@ import { HiOutlineBriefcase } from "react-icons/hi";
 const DashBoard = () => {
   return (
     <>
-      <Box mx={16}>
+      <Box>
         <Grid mt={10} templateColumns="repeat(4, 1fr)" gap={5}>
-          <GridItem bg="white" rounded="lg" p={3} shadow="md">
+          <GridItem bg="white" rounded="lg" p={3} shadow="md" h="8.25rem">
             <Flex align="center">
               <Icon
                 as={TbCurrencyCent}
@@ -157,14 +157,12 @@ const DashBoard = () => {
             </Text>
           </GridItem>
         </Grid>
-        <Flex my={16} justify="space-evenly">
+        <Flex mt={10} gap={5}>
           <Box
             bg="white"
-            w="fit-content"
             p={3}
             rounded="lg"
             shadow="md"
-            height="15.25rem"
           >
             <BarChart bgGradient="linear(to-b,blue.500,blue.400,blue.300)" />
             <Text fontSize="sm" color="gray.500" fontWeight="bold">
@@ -175,7 +173,7 @@ const DashBoard = () => {
               Lorem ipsum dolor sit amet.
             </Text>
           </Box>
-          <Box bg="white" w="fit-content" p={3} rounded="lg" shadow="md">
+          <Box bg="white" p={3} rounded="lg" shadow="md">
             <BarChart bgGradient="linear(to-b,green.400,green.300,green.200)" />
             <Text fontSize="sm" color="gray.500" fontWeight="bold">
               Monthly Payments
@@ -185,7 +183,7 @@ const DashBoard = () => {
               Repudiandae, illum amet.
             </Text>
           </Box>
-          <Box bg="white" w="fit-content" p={3} rounded="lg" shadow="md">
+          <Box bg="white" p={3} rounded="lg" shadow="md">
             <BarChart bgGradient="linear(to-b,red.500,red.400,red.300)" />
             <Text fontSize="sm" color="gray.500" fontWeight="bold">
               Total Loan

@@ -34,7 +34,7 @@ const options = {
     scales: {
       x: {
         ticks: {
-          color: 'white', // Set the color of x-axis labels to white
+          color: '#fff', // Set the color of x-axis labels to white
         },
         grid: {
           display: false, // Hide the x-axis grid lines if needed
@@ -42,7 +42,7 @@ const options = {
       },
       y: {
         ticks: {
-          color: 'white', // Set the color of y-axis labels to white
+          fontColor: 'white', // Set the color of y-axis labels to white
         },
       },
     },
@@ -57,14 +57,16 @@ const data = {
     {
       data: mockDataInvoices.map((item=>item.cost)),
       backgroundColor: 'white',
+      barThickness: 10,
+      borderRadius: 10,
     },
   ],
 };
 
 function BarChart({bgGradient}) {
   return (
-    <Box bgGradient={bgGradient} maxW="25rem" position="relative" top={-8} rounded="lg" shadow="lg">
-      <Bar options={options} data={data} />
+    <Box bgGradient={bgGradient} w="25rem" h="13.25rem" position="relative" top={-8} rounded="lg" shadow="lg">
+      <Bar options={options} data={data}/>
     </Box>
   );
 }

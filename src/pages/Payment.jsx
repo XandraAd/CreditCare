@@ -110,7 +110,7 @@ const Payment = () => {
           Payment Data
         </Heading>
       </Flex>
-      <Box w={{ xl: "75%" }} mx={{ base: 5, xl: "auto" }} my={5}>
+      <Box my={5}>
         {paymentDataIsEmpty ? (
           <>
             <Flex
@@ -119,7 +119,6 @@ const Payment = () => {
               bg="#FDFDFD"
               rounded="lg"
               shadow="lg"
-              mx={8}
             >
               {tableHeadings.map((tableHeading) => (
                 <Text
