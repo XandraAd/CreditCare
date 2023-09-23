@@ -10,26 +10,30 @@ import {
   useDisclosure,
   useToast,
   HStack,
-  Container,
   Link as ChakraLink,
   Avatar,
   AvatarBadge,
   Input,
   Icon,
   Image,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
 import { NavLink as RouterLink } from "react-router-dom";
 import { BellIcon } from "@chakra-ui/icons";
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { RxDashboard } from "react-icons/rx";
 import { FcCalculator } from "react-icons/fc";
 import { MdOutlinePayment } from "react-icons/md";
 import { BsCalendar3 } from "react-icons/bs";
 import { HiMenuAlt3 } from "react-icons/hi";
-import {MdCreditScore} from "react-icons/md"
+import { AiOutlineSearch } from "react-icons/ai";
+import { MdCreditScore } from "react-icons/md";
 import { logout } from "../config/firebase";
-import Logo from "../assets/png/logo-no-background.png"
+import Logo from "../assets/png/logo-no-background.png";
+import { useDispatch } from "react-redux";
+import { setSearchQuery } from "../slices/functionSlice";
 
 const navItems = [
   {
@@ -64,34 +68,43 @@ const navItems = [
   },
 ];
 
-const Navigation = (onSearch) => {
-  const [searchTerm, setSearchTerm] = useState("");
+function SearchBar() {
+  const dispatch = useDispatch();
 
-  const handleSearch = () => {
-    onSearch(searchTerm);
+  const handleSearch = (e) => {
+    const searchQuery = e.target.value;
+    console.log(searchQuery);
+    dispatch(setSearchQuery(searchQuery));
   };
+
+  return (
+    <InputGroup w="full" ms="auto">
+      <InputRightElement pointerEvents="none">
+        <AiOutlineSearch />
+      </InputRightElement>
+      <Input
+        type="search"
+        placeholder="Search..."
+        onChange={handleSearch}
+        _focusWithin={{ borderColor: "green", boxShadow: "none" }}
+        bg="whiteAlpha.900"
+      />
+    </InputGroup>
+  );
+}
+
+
+const Navigation = () => {
+  
   return (
     <>
-      <HStack w="full" me="1.5rem" spacing={5}>
-        <Container>
-          <Flex alignItems="center">
-            <Input
-              type="text"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              bg="#FDFDFD"
-            />
-            <Button ml={2} onClick={handleSearch}>
-              Search
-            </Button>
-          </Flex>
-        </Container>
+      <HStack w="full" spacing={10}>
+        <SearchBar/>
         <HStack spacing={10}>
           <ChakraLink as={RouterLink} to="#">
             <BellIcon boxSize={8} />
           </ChakraLink>
-        
+
           <Avatar boxSize="2rem">
             <AvatarBadge boxSize="1em" bg="green.500" />
           </Avatar>
@@ -140,9 +153,22 @@ function SideNav() {
     }, 500);
   };
 
+  const [greetText, setGreetText] = useState("");
+  const currentDate = useMemo(() => new Date(), []);
+  const day = currentDate.toLocaleDateString("default", { weekday: "long" });
+  const month = currentDate.toLocaleString("default", { month: "long" });
+  const date = `${day}, ${month} ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
+
+  useEffect(() => {
+    let currentHour = currentDate.getHours();
+    if (currentHour < 12) setGreetText("Good Morning!");
+    else if (currentHour < 18) setGreetText("Good Afternoon!");
+    else setGreetText("Good Evening!");
+  }, [currentDate]);
+
   return (
     <>
-      <Flex align="center" mt={5} w={{ xl: "75%" }} mx="auto">
+      <Flex align="center">
         <Tooltip label="menu" hasArrow>
           <Button
             ref={btnRef}
@@ -154,7 +180,13 @@ function SideNav() {
             <HiMenuAlt3 fontSize="2rem" />
           </Button>
         </Tooltip>
-        <Navigation />
+        <Text
+          fontSize="xs"
+          w="40%"
+        >
+          {greetText} {date}
+        </Text>
+          <Navigation />
       </Flex>
       <Drawer
         isOpen={isOpen}
@@ -167,9 +199,9 @@ function SideNav() {
           backdropFilter="blur(8px)"
           backgroundColor="rgba(0, 0, 0, 0.5)"
         />
-        <DrawerContent bgColor="gray.100" px={{xl: "12.5vw"}}>
+        <DrawerContent bgColor="gray.100" px={{ xl: "12.5vw" }}>
           <Flex mt={4} align="center" px={5}>
-            <Image src={Logo} boxSize="100px" objectFit="contain"/>
+            <Image src={Logo} boxSize="100px" objectFit="contain" />
             <Button
               variant="solid"
               bgGradient="linear(to-l,teal.400,teal.300,teal.200)"
@@ -190,7 +222,14 @@ function SideNav() {
           </Flex>
 
           <DrawerBody>
-            <Flex bg="#FDFDFD" p={1} rounded="lg" shadow="sm" border="2px" borderColor="gray.200">
+            <Flex
+              bg="#FDFDFD"
+              p={1}
+              rounded="lg"
+              shadow="sm"
+              border="2px"
+              borderColor="gray.200"
+            >
               {navItems.map((navItem, index) => (
                 <Flex
                   key={index}
