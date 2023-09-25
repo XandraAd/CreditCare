@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
-
+import { useEffect, useMemo, useState } from "react";
 import {
   Box,
   Text,
@@ -20,7 +20,7 @@ const DashBoard = () => {
   return (
     <>
       <Box>
-        <Grid mt={10}  templateColumns="repeat(2, 1fr)" gap={5}>
+        <Grid mt={10} templateColumns="repeat(4, 1fr)" gap={5}>
           <GridItem bg="white" rounded="lg" p={3} shadow="md" h="8.25rem">
             <Flex align="center">
               <Icon
@@ -142,9 +142,9 @@ const DashBoard = () => {
             </Text>
           </GridItem>
         </Grid>
-        <Flex mt={20} gap={5}>
+        <Flex mt={10} gap={5}>
           <Box bg="white" p={3} rounded="lg" shadow="md">
-            <BarChart bgGradient="linear(to-b,blue.500,blue.400,blue.300)" chartType="daily"/>
+            <BarChart bgGradient="linear(to-b,blue.500,blue.400,blue.300)" />
             <Text fontSize="sm" color="gray.500" fontWeight="bold">
               Weekly Payments
             </Text>
@@ -154,7 +154,7 @@ const DashBoard = () => {
             </Text>
           </Box>
           <Box bg="white" p={3} rounded="lg" shadow="md">
-            <BarChart bgGradient="linear(to-b,green.400,green.300,green.200)" chartType="weekly"/>
+            <BarChart bgGradient="linear(to-b,green.400,green.300,green.200)" />
             <Text fontSize="sm" color="gray.500" fontWeight="bold">
               Monthly Payments
             </Text>
@@ -164,7 +164,7 @@ const DashBoard = () => {
             </Text>
           </Box>
           <Box bg="white" p={3} rounded="lg" shadow="md">
-            <BarChart bgGradient="linear(to-b,red.500,red.400,red.300)" chartType="monthly"/>
+            <BarChart bgGradient="linear(to-b,red.500,red.400,red.300)" />
             <Text fontSize="sm" color="gray.500" fontWeight="bold">
               Total Loan
             </Text>
