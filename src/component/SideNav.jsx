@@ -87,8 +87,9 @@ function SideNav() {
         flexDir="column"
         mx={5}
         h="95vh"
-        w="15%"
+        w="16.5%"
         gap={3}
+        position="fixed"
       >
         <Image src={Logo} boxSize="80px" objectFit="contain" mx="auto" />
         <Divider/>

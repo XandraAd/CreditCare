@@ -30,12 +30,22 @@ import { TbCurrencyCent } from "react-icons/tb";
 import { GiReceiveMoney } from "react-icons/gi";
 import { GiMoneyStack } from "react-icons/gi";
 import { HiOutlineBriefcase } from "react-icons/hi";
+import { useDispatch, useSelector } from "react-redux";
+import { calculateAllLoans, calculateAllPayments } from "../../slices/functionSlice";
+import LineChart from "../../component/LineChart";
 
 const DashBoard = () => {
+  const state = useSelector((state) => state.loanReducer);
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    dispatch(calculateAllLoans(), calculateAllPayments())
+  }, [dispatch])
+
   return (
     <>
       <Box>
-        <Grid mt={10} templateColumns="repeat(4, 1fr)" gap={5}>
+        <Grid my={10} templateColumns="repeat(auto-fit, minmax(200px, 1fr))" gap={5}>
           <GridItem bg="white" rounded="lg" p={3} shadow="md" h="8.25rem">
             <Flex align="center">
               <Icon
@@ -54,14 +64,14 @@ const DashBoard = () => {
                   Total Payments
                 </Text>
                 <Text fontSize="sm" fontWeight="bold" textAlign="end">
-                  GHS 3000
+                  GHS {state.allPayments}.00
                 </Text>
               </Box>
             </Flex>
             <Divider />
             <Text fontSize="sm" color="gray.500" my={2}>
               <Text as="span" color="green.400" fontWeight="bold">
-                +55%{" "}
+                0%{" "}
               </Text>
               of total loans paid so far
             </Text>
@@ -84,14 +94,14 @@ const DashBoard = () => {
                   Total Loans
                 </Text>
                 <Text fontSize="sm" fontWeight="bold" textAlign="end">
-                  GHS 6000
+                  GHS {state.allLoans}.00
                 </Text>
               </Box>
             </Flex>
             <Divider />
             <Text fontSize="sm" color="gray.500" my={2}>
               <Text as="span" color="red.400" fontWeight="bold">
-                -55%{" "}
+                0%{" "}
               </Text>
               from last week
             </Text>
@@ -114,16 +124,16 @@ const DashBoard = () => {
                   Total Outstanding
                 </Text>
                 <Text fontSize="sm" fontWeight="bold" textAlign="end">
-                  GHS 5000
+                  GHS 0.00
                 </Text>
               </Box>
             </Flex>
             <Divider />
             <Text fontSize="sm" color="gray.500" my={2}>
               <Text as="span" color="green.400" fontWeight="bold">
-                +55%{" "}
+                0%{" "}
               </Text>
-              of total loans paid so far
+              of total loans left
             </Text>
           </GridItem>
           <GridItem bg="white" rounded="lg" p={3} shadow="md">
@@ -150,15 +160,12 @@ const DashBoard = () => {
             </Flex>
             <Divider />
             <Text fontSize="sm" color="gray.500" my={2}>
-              <Text as="span" color="green.400" fontWeight="bold">
-                +55%{" "}
-              </Text>
-              of total loans paid so far
+              Loan Portfolios
             </Text>
           </GridItem>
         </Grid>
-        <Flex mt={10} gap={5}>
-          <Box
+        <Grid templateColumns="repeat(auto-fit, minmax(12rem, 1fr))" gap={5}>
+          <GridItem
             bg="white"
             p={3}
             rounded="lg"
@@ -172,9 +179,9 @@ const DashBoard = () => {
             <Text fontSize="sm" color="gray.500">
               Lorem ipsum dolor sit amet.
             </Text>
-          </Box>
-          <Box bg="white" p={3} rounded="lg" shadow="md">
-            <BarChart bgGradient="linear(to-b,green.400,green.300,green.200)" />
+          </GridItem>
+          <GridItem bg="white" p={3} rounded="lg" shadow="md">
+            <LineChart bgGradient="linear(to-b,green.400,green.300,green.200)" />
             <Text fontSize="sm" color="gray.500" fontWeight="bold">
               Monthly Payments
             </Text>
@@ -182,8 +189,8 @@ const DashBoard = () => {
             <Text fontSize="sm" color="gray.500">
               Repudiandae, illum amet.
             </Text>
-          </Box>
-          <Box bg="white" p={3} rounded="lg" shadow="md">
+          </GridItem>
+          <GridItem bg="white" p={3} rounded="lg" shadow="md">
             <BarChart bgGradient="linear(to-b,red.500,red.400,red.300)" />
             <Text fontSize="sm" color="gray.500" fontWeight="bold">
               Total Loan
@@ -192,8 +199,8 @@ const DashBoard = () => {
             <Text fontSize="sm" color="gray.500">
               Consequuntur at omnis sit sunt.
             </Text>
-          </Box>
-        </Flex>
+          </GridItem>
+        </Grid>
       </Box>
     </>
   );
