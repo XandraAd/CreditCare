@@ -1,29 +1,14 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
-import { useEffect, useMemo, useState } from "react";
+
 import {
   Box,
-  Heading,
   Text,
   Flex,
-  Card,
-  CardHeader,
-  CardBody,
-  HStack,
-  Stack,
   Divider,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
   Grid,
   GridItem,
   Icon,
-  Container,
 } from "@chakra-ui/react";
 import BarChart from "../../component/BarChart";
 import { TbCurrencyCent } from "react-icons/tb";
@@ -35,7 +20,7 @@ const DashBoard = () => {
   return (
     <>
       <Box>
-        <Grid mt={10} templateColumns="repeat(4, 1fr)" gap={5}>
+        <Grid mt={10}  templateColumns="repeat(2, 1fr)" gap={5}>
           <GridItem bg="white" rounded="lg" p={3} shadow="md" h="8.25rem">
             <Flex align="center">
               <Icon
@@ -157,38 +142,33 @@ const DashBoard = () => {
             </Text>
           </GridItem>
         </Grid>
-        <Flex mt={10} gap={5}>
-          <Box
-            bg="white"
-            p={3}
-            rounded="lg"
-            shadow="md"
-          >
-            <BarChart bgGradient="linear(to-b,blue.500,blue.400,blue.300)" />
+        <Flex mt={20} gap={5}>
+          <Box bg="white" p={3} rounded="lg" shadow="md">
+            <BarChart bgGradient="linear(to-b,blue.500,blue.400,blue.300)" chartType="daily"/>
             <Text fontSize="sm" color="gray.500" fontWeight="bold">
               Weekly Payments
             </Text>
-            <Divider my={2}/>
+            <Divider my={2} />
             <Text fontSize="sm" color="gray.500">
               Lorem ipsum dolor sit amet.
             </Text>
           </Box>
           <Box bg="white" p={3} rounded="lg" shadow="md">
-            <BarChart bgGradient="linear(to-b,green.400,green.300,green.200)" />
+            <BarChart bgGradient="linear(to-b,green.400,green.300,green.200)" chartType="weekly"/>
             <Text fontSize="sm" color="gray.500" fontWeight="bold">
               Monthly Payments
             </Text>
-            <Divider my={2}/>
+            <Divider my={2} />
             <Text fontSize="sm" color="gray.500">
               Repudiandae, illum amet.
             </Text>
           </Box>
           <Box bg="white" p={3} rounded="lg" shadow="md">
-            <BarChart bgGradient="linear(to-b,red.500,red.400,red.300)" />
+            <BarChart bgGradient="linear(to-b,red.500,red.400,red.300)" chartType="monthly"/>
             <Text fontSize="sm" color="gray.500" fontWeight="bold">
               Total Loan
             </Text>
-            <Divider my={2}/>
+            <Divider my={2} />
             <Text fontSize="sm" color="gray.500">
               Consequuntur at omnis sit sunt.
             </Text>
