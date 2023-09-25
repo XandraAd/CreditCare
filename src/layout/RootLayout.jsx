@@ -83,7 +83,7 @@ function RootLayout({ isAuthenticated }) {
     <>
       <Flex py={2}>
         {isAuthenticated && <SideNav />}
-        <Box w="85%" ms="auto" pe={5}>
+        <Box w="80%" ms="auto" pe={5}>
           <Navigation />
           {isAuthenticated && <Outlet />}
         </Box>

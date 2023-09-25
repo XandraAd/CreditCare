@@ -4,8 +4,8 @@ const initialState = {
   budget: [],
   enabledCardId: null,
   isBudgetButtonEnabled: false,
-  totalBudget: 0,
-  totalFinancedBudget: 0,
+  allLoans: 0,
+  allPayments: 0,
   hasPaid: false,
   searchQuery: "",
   //other states...
@@ -64,15 +64,15 @@ const functionSlice = createSlice({
       );
       console.log("budget deleted");
     },
-    calculateTotalBudget: (state) => {
-      state.totalBudget = state.budget.reduce(
-        (total, budget) => total + parseInt(budget.amount),
+    calculateAllLoans: (state) => {
+      state.allLoans = state.budget.reduce(
+        (total, budget) => total + parseInt(budget.totalLoan),
         0
       );
     },
-    calculateTotalFinancedBudget: (state) => {
-      state.totalFinancedBudget = state.budget.reduce(
-        (total, budget) => total + parseInt(budget.finance),
+    calculateAllPayments: (state) => {
+      state.allPayments = state.budget.reduce(
+        (total, budget) => total + parseInt(budget.paymentEstimate),
         0
       );
     },
@@ -133,8 +133,8 @@ export const {
   clearEnabledCard,
   enableBudgetButton,
   disableBudgetButton,
-  calculateTotalBudget,
-  calculateTotalFinancedBudget,
+  calculateAllLoans,
+  calculateAllPayments,
   updatePaymentPercentage,
   calculateTotalLoan,
   calculatePaymentEstimate,

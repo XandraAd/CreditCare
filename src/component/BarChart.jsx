@@ -49,7 +49,7 @@ const options = {
   },
 };
 
-const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sat'];
+const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 const data = {
   labels,
@@ -65,7 +65,7 @@ const data = {
 
 function BarChart({bgGradient}) {
   return (
-    <Box bgGradient={bgGradient} w="25rem" h="13.25rem" position="relative" top={-8} rounded="lg" shadow="lg">
+    <Box bgGradient={bgGradient} h="13.25rem" position="relative" top={-8} rounded="lg" shadow="lg">
       <Bar options={options} data={data}/>
     </Box>
   );
