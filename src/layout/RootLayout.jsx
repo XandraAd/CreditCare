@@ -12,6 +12,9 @@ import {
   Input,
   Box,
   Text,
+  useDisclosure,
+  Button,
+  Icon,
 } from "@chakra-ui/react";
 import { NavLink as RouterLink } from "react-router-dom";
 import { BellIcon } from "@chakra-ui/icons";
@@ -19,6 +22,7 @@ import { useDispatch } from "react-redux";
 import { setSearchQuery } from "../slices/functionSlice";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useState, useEffect, useMemo } from "react";
+import { HiMenuAlt3 } from "react-icons/hi";
 
 function SearchBar() {
   const dispatch = useDispatch();
@@ -30,7 +34,7 @@ function SearchBar() {
   };
 
   return (
-    <InputGroup w="25rem">
+    <InputGroup w={{lg:"25rem"}}>
       <InputRightElement pointerEvents="none">
         <AiOutlineSearch />
       </InputRightElement>
@@ -45,7 +49,7 @@ function SearchBar() {
   );
 }
 
-const Navigation = () => {
+const Navigation = ({ onOpen }) => {
   const [greetText, setGreetText] = useState("");
   const currentDate = useMemo(() => new Date(), []);
   const day = currentDate.toLocaleDateString("default", { weekday: "long" });
@@ -58,12 +62,20 @@ const Navigation = () => {
     else if (currentHour < 18) setGreetText("Good Afternoon!");
     else setGreetText("Good Evening!");
   }, [currentDate]);
+
   return (
     <>
       <HStack>
-        <Text fontSize="xs" fontWeight="bold">
-          {greetText} {date}
-        </Text>
+      <Button
+            bg="transparent"
+            onClick={onOpen}
+            display={{base: "flex", xl: "none"}}
+          >
+            <Icon as={HiMenuAlt3} fontSize="2rem" color="blue.400" />
+          </Button>
+          <Text fontSize="xs" fontWeight="bold" display={{base: "none", lg: "flex"}}>
+            {greetText} {date}
+          </Text>
         <Flex ms="auto" gap={5}>
           <SearchBar />
           <ChakraLink as={RouterLink} to="#">
@@ -79,12 +91,14 @@ const Navigation = () => {
 };
 
 function RootLayout({ isAuthenticated }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <>
-      <Flex py={2}>
-        {isAuthenticated && <SideNav />}
-        <Box w="80%" ms="auto" pe={5}>
-          <Navigation />
+      <Flex py={2} ps={4}>
+        {isAuthenticated && <SideNav isOpen={isOpen} onClose={onClose} />}
+        <Box w={{ base: "full", xl: "80%" }} ms="auto" pe={5}>
+          <Navigation onOpen={onOpen} />
           {isAuthenticated && <Outlet />}
         </Box>
       </Flex>
