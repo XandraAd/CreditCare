@@ -135,6 +135,7 @@ function SignUpForm() {
                   name="firstName"
                   onChange={handleChange}
                   placeholder="First Name"
+                  bg="white"
                 />
               </FormControl>
               <FormControl id="lname" isRequired>
@@ -144,6 +145,7 @@ function SignUpForm() {
                   name="lastName"
                   onChange={handleChange}
                   placeholder="Last Name"
+                  bg="white"
                 />
               </FormControl>
             </HStack>
@@ -155,6 +157,7 @@ function SignUpForm() {
                 name="email"
                 onChange={handleChange}
                 placeholder="Email"
+                bg="white"
               />
             </FormControl>
             <HStack>
@@ -166,6 +169,7 @@ function SignUpForm() {
                   name="countryCode"
                   onChange={handleChange}
                   placeholder="Country Code"
+                  bg="white"
                 >
                   {countryCodes.map((code) => (
                     <option key={code.value} value={code.value}>
@@ -181,7 +185,8 @@ function SignUpForm() {
                   type="tel"
                   name="telephone"
                   onChange={handleChange}
-                  placeholder="Telephone number*"
+                  placeholder="Telephone number"
+                  bg="white"
                 />
               </FormControl>
             </HStack>
@@ -193,6 +198,7 @@ function SignUpForm() {
                 name="password"
                 onChange={handleChange}
                 placeholder="Enter your password"
+                bg="white"
               />
             </FormControl>
             <FormControl id="passwordConfirmation" isRequired>
@@ -202,6 +208,7 @@ function SignUpForm() {
                 name="passwordConfirmation"
                 onChange={handleChange}
                 placeholder="Confirm your password"
+                bg="white"
               />
             </FormControl>
 

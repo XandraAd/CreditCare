@@ -86,6 +86,7 @@ function SignInForm() {
                 name="email"
                 onChange={handleChange}
                 placeholder="Enter your email"
+                bg="white"
               />
             </FormControl>
             <FormControl id="password" isRequired>
@@ -95,6 +96,7 @@ function SignInForm() {
                 name="password"
                 onChange={handleChange}
                 placeholder="Enter your password"
+                bg="white"
               />
             </FormControl>
             <Button
