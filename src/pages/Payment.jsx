@@ -81,8 +81,6 @@ const Payment = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
 
-
-
   const toast = useToast();
   const dispatch = useDispatch();
 
@@ -198,7 +196,13 @@ const Payment = () => {
                       </Td>
                       <Td>
                         <Text
-                          bg={tableData.status === "In Progress" ? "yellow.300" : tableData.status === "Paid" ? "green.300" : "red.400"}
+                          bg={
+                            tableData.status === "In Progress"
+                              ? "yellow.300"
+                              : tableData.status === "Paid"
+                              ? "green.300"
+                              : "red.400"
+                          }
                           textAlign="center"
                           fontSize="2xs"
                           px={2}
@@ -457,8 +461,7 @@ const Payment = () => {
                               onSuccess={() => {
                                 const budgetId = tableData.id;
                                 dispatch(updatePaymentPercentage(budgetId));
-                              }
-                            }
+                              }}
                             />
                           </Flex>
                         </ModalBody>

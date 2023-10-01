@@ -33,6 +33,7 @@ import { HiOutlineBriefcase } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { calculateAllLoans, calculateAllPayments } from "../../slices/functionSlice";
 import LineChart from "../../component/LineChart";
+import YearlyBarChart from "../../component/YearlyBarChart";
 
 const DashBoard = () => {
   const state = useSelector((state) => state.loanReducer);
@@ -191,9 +192,9 @@ const DashBoard = () => {
             </Text>
           </GridItem>
           <GridItem bg="white" p={3} rounded="lg" shadow="md">
-            <BarChart bgGradient="linear(to-b,red.500,red.400,red.300)" />
+            <YearlyBarChart bgGradient="linear(to-b,red.500,red.400,red.300)" />
             <Text fontSize="sm" color="gray.500" fontWeight="bold">
-              Total Loan
+              Yearly Payments
             </Text>
             <Divider my={2}/>
             <Text fontSize="sm" color="gray.500">
