@@ -7,7 +7,6 @@ import {
   Icon,
   Image,
   Divider,
-  Show,
   Drawer,
   DrawerOverlay,
   DrawerContent,
@@ -57,7 +56,7 @@ const navItems = [
   },
 ];
 
-function SideNav({isOpen, onClose}) {
+function SideNav({ isOpen, onClose }) {
   const toast = useToast();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -93,134 +92,124 @@ function SideNav({isOpen, onClose}) {
 
   return (
     <>
-      <Show breakpoint="(min-width: 1380px)">
-        <Flex
-          bg="white"
-          p={1}
-          rounded="lg"
-          shadow="md"
-          flexDir="column"
-          mx={5}
-          minH="95vh"
-          w="16.5%"
-          gap={3}
-          position="fixed"
-        >
-          <Image src={Logo} boxSize="80px" objectFit="contain" mx="auto" />
-          <Divider />
-          {navItems.map((navItem, index) => (
-            <Flex
-              key={index}
-              as={Link}
-              to={navItem.path}
-              onClick={() => handleRouteChange(navItem.title)}
-              textTransform="uppercase"
-              bg={activeRoute === navItem.title ? "gray.200" : "transparent"}
-              shadow={activeRoute === navItem.title ? "lg" : "none"}
-              color={activeRoute === navItem.title ? navItem.color : "gray.600"}
-              fontWeight={activeRoute === navItem.title ? "bold" : "semibold"}
-              p={3}
-              rounded="lg"
-              fontSize="lg"
-              gap={4}
-              w="full"
-            >
-              {navItem.icon}
-              <Text fontSize="sm">{navItem.title}</Text>
-            </Flex>
-          ))}
-          <Button
-            variant="solid"
-            bgGradient="linear(to-l,teal.400,teal.300,teal.200)"
-            transition={"all 1000ms"}
-            color="#FDFDFD"
-            type="submit"
-            onClick={handleLogout}
-            isLoading={isLoading}
-            _hover={{ bg: "teal.400" }}
-            mt="auto"
-            fontWeight="bold"
-            rounded="lg"
+      <Flex
+        bg="white"
+        p={1}
+        rounded="lg"
+        shadow="md"
+        flexDir="column"
+        mx={5}
+        minH="95vh"
+        w="16.5%"
+        gap={3}
+        position="fixed"
+        display={{base: "none", xl: "flex"}}
+      >
+        <Image src={Logo} boxSize="80px" objectFit="contain" mx="auto" />
+        <Divider />
+        {navItems.map((navItem, index) => (
+          <Flex
+            key={index}
+            as={Link}
+            to={navItem.path}
+            onClick={() => handleRouteChange(navItem.title)}
             textTransform="uppercase"
-            shadow="lg"
+            bg={activeRoute === navItem.title ? "gray.200" : "transparent"}
+            shadow={activeRoute === navItem.title ? "lg" : "none"}
+            color={activeRoute === navItem.title ? navItem.color : "gray.600"}
+            fontWeight={activeRoute === navItem.title ? "bold" : "semibold"}
+            p={3}
+            rounded="lg"
+            fontSize="lg"
+            gap={4}
+            w="full"
           >
-            Logout
-          </Button>
-        </Flex>
-      </Show>
-        <Drawer
-          isOpen={isOpen}
-          placement="left"
-          onClose={onClose}
+            {navItem.icon}
+            <Text fontSize="sm">{navItem.title}</Text>
+          </Flex>
+        ))}
+        <Button
+          variant="solid"
+          bgGradient="linear(to-l,teal.400,teal.300,teal.200)"
+          transition={"all 1000ms"}
+          color="#FDFDFD"
+          type="submit"
+          onClick={handleLogout}
+          isLoading={isLoading}
+          _hover={{ bg: "teal.400" }}
+          mt="auto"
+          fontWeight="bold"
+          rounded="lg"
+          textTransform="uppercase"
+          shadow="lg"
         >
-          <DrawerOverlay />
-          <DrawerContent>
-            <DrawerCloseButton />
-            <DrawerBody>
-              <Flex
-                bg="white"
-                p={1}
-                rounded="lg"
-                flexDir="column"
-                mx={5}
-                h="95vh"
-                gap={3}
-              >
-                <Image
-                  src={Logo}
-                  boxSize="80px"
-                  objectFit="contain"
-                  mx="auto"
-                />
-                <Divider />
-                {navItems.map((navItem, index) => (
-                  <Flex
-                    key={index}
-                    as={Link}
-                    to={navItem.path}
-                    onClick={() => handleRouteChange(navItem.title)}
-                    textTransform="uppercase"
-                    bg={
-                      activeRoute === navItem.title ? "gray.200" : "transparent"
-                    }
-                    shadow={activeRoute === navItem.title ? "lg" : "none"}
-                    color={
-                      activeRoute === navItem.title ? navItem.color : "gray.600"
-                    }
-                    fontWeight={
-                      activeRoute === navItem.title ? "bold" : "semibold"
-                    }
-                    p={3}
-                    rounded="lg"
-                    fontSize="lg"
-                    gap={4}
-                    w="full"
-                  >
-                    {navItem.icon}
-                    <Text fontSize="sm">{navItem.title}</Text>
-                  </Flex>
-                ))}
-                <Button
-                  variant="solid"
-                  bgGradient="linear(to-l,teal.400,teal.300,teal.200)"
-                  transition={"all 1000ms"}
-                  color="#FDFDFD"
-                  type="submit"
-                  onClick={handleLogout}
-                  isLoading={isLoading}
-                  _hover={{ bg: "teal.400" }}
-                  mt="auto"
-                  fontWeight="bold"
-                  rounded="lg"
+          Logout
+        </Button>
+      </Flex>
+      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerBody>
+            <Flex
+              bg="white"
+              p={1}
+              rounded="lg"
+              flexDir="column"
+              mx={5}
+              h="95vh"
+              gap={3}
+            >
+              <Image src={Logo} boxSize="80px" objectFit="contain" mx="auto" />
+              <Divider />
+              {navItems.map((navItem, index) => (
+                <Flex
+                  key={index}
+                  as={Link}
+                  to={navItem.path}
+                  onClick={() => handleRouteChange(navItem.title)}
                   textTransform="uppercase"
-                  shadow="lg"
+                  bg={
+                    activeRoute === navItem.title ? "gray.200" : "transparent"
+                  }
+                  shadow={activeRoute === navItem.title ? "lg" : "none"}
+                  color={
+                    activeRoute === navItem.title ? navItem.color : "gray.600"
+                  }
+                  fontWeight={
+                    activeRoute === navItem.title ? "bold" : "semibold"
+                  }
+                  p={3}
+                  rounded="lg"
+                  fontSize="lg"
+                  gap={4}
+                  w="full"
                 >
-                  Logout
-                </Button>
-              </Flex>
-            </DrawerBody>
-          </DrawerContent>
-        </Drawer>
+                  {navItem.icon}
+                  <Text fontSize="sm">{navItem.title}</Text>
+                </Flex>
+              ))}
+              <Button
+                variant="solid"
+                bgGradient="linear(to-l,teal.400,teal.300,teal.200)"
+                transition={"all 1000ms"}
+                color="#FDFDFD"
+                type="submit"
+                onClick={handleLogout}
+                isLoading={isLoading}
+                _hover={{ bg: "teal.400" }}
+                mt="auto"
+                fontWeight="bold"
+                rounded="lg"
+                textTransform="uppercase"
+                shadow="lg"
+              >
+                Logout
+              </Button>
+            </Flex>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }
