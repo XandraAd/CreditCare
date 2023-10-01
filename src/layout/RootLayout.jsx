@@ -15,6 +15,7 @@ import {
   useDisclosure,
   Button,
   Icon,
+  Show,
 } from "@chakra-ui/react";
 import { NavLink as RouterLink } from "react-router-dom";
 import { BellIcon } from "@chakra-ui/icons";
@@ -34,7 +35,7 @@ function SearchBar() {
   };
 
   return (
-    <InputGroup w="25rem">
+    <InputGroup w={{lg:"25rem"}}>
       <InputRightElement pointerEvents="none">
         <AiOutlineSearch />
       </InputRightElement>
@@ -73,9 +74,11 @@ const Navigation = ({ onOpen }) => {
           >
             <Icon as={HiMenuAlt3} fontSize="2rem" color="blue.400" />
           </Button>
-        <Text fontSize="xs" fontWeight="bold">
-          {greetText} {date}
-        </Text>
+        <Show breakpoint="(min-width: 768)">
+          <Text fontSize="xs" fontWeight="bold">
+            {greetText} {date}
+          </Text>
+        </Show>
         <Flex ms="auto" gap={5}>
           <SearchBar />
           <ChakraLink as={RouterLink} to="#">

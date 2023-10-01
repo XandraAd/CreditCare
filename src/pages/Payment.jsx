@@ -117,6 +117,8 @@ const Payment = () => {
               bg="#FDFDFD"
               rounded="lg"
               shadow="lg"
+              overflowX="auto"
+              whiteSpace="nowrap"
             >
               {tableHeadings.map((tableHeading) => (
                 <Text
@@ -126,6 +128,7 @@ const Payment = () => {
                   color="gray.600"
                   fontWeight="bold"
                   textTransform="uppercase"
+                  px={{base: 4, lg: 0}}
                 >
                   {tableHeading}
                 </Text>
@@ -153,6 +156,7 @@ const Payment = () => {
                 fontSize="sm"
                 fontWeight="semibold"
                 color="gray.400"
+                textAlign="center"
               >
                 You Have No Loans Yet. Create a Loan portfolio &nbsp;
                 <ChakraLink

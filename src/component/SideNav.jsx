@@ -101,7 +101,7 @@ function SideNav({isOpen, onClose}) {
           shadow="md"
           flexDir="column"
           mx={5}
-          h="95vh"
+          minH="95vh"
           w="16.5%"
           gap={3}
           position="fixed"

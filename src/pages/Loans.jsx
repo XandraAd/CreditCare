@@ -124,7 +124,7 @@ function LoanCard({ onEditBudget, searchQuery }) {
   return (
     <>
       <Box>
-        <HStack bg="#FDFDFD" p={1} rounded="lg" shadow="sm" my={4}>
+        <HStack bg="#FDFDFD" p={1} rounded="lg" shadow="sm" my={4} overflowX="auto" whiteSpace="nowrap">
           {renderTabs()}
         </HStack>
         {filteredLoans.length === 0 ? (
