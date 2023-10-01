@@ -15,7 +15,6 @@ import {
   useDisclosure,
   Button,
   Icon,
-  Show,
 } from "@chakra-ui/react";
 import { NavLink as RouterLink } from "react-router-dom";
 import { BellIcon } from "@chakra-ui/icons";
@@ -74,11 +73,9 @@ const Navigation = ({ onOpen }) => {
           >
             <Icon as={HiMenuAlt3} fontSize="2rem" color="blue.400" />
           </Button>
-        <Show breakpoint="(min-width: 768)">
-          <Text fontSize="xs" fontWeight="bold">
+          <Text fontSize="xs" fontWeight="bold" display={{base: "none", lg: "flex"}}>
             {greetText} {date}
           </Text>
-        </Show>
         <Flex ms="auto" gap={5}>
           <SearchBar />
           <ChakraLink as={RouterLink} to="#">
