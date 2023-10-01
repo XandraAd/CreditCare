@@ -97,7 +97,7 @@ function RootLayout({ isAuthenticated }) {
     <>
       <Flex py={2} ps={4}>
         {isAuthenticated && <SideNav isOpen={isOpen} onClose={onClose} />}
-        <Box w={{ base: "full", xl: "80%" }} ms="auto" pe={5}>
+        <Box w={{ base: "full", xl:"80%"}} ms="auto" pe={5}>
           <Navigation onOpen={onOpen} />
           {isAuthenticated && <Outlet />}
         </Box>
