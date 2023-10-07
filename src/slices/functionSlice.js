@@ -13,13 +13,13 @@ const initialState = {
 
 export const addFinanceData = (payload) => {
   return {
-    type: 'budgetExpense/addFinanceData',
+    type: "budgetExpense/addFinanceData",
     payload,
   };
 };
 
 export const setSearchQuery = (searchQuery) => ({
-  type: 'budgetExpense/setSearchQuery',
+  type: "budgetExpense/setSearchQuery",
   payload: searchQuery,
 });
 
@@ -63,6 +63,7 @@ const functionSlice = createSlice({
         (budget) => budget.id !== action.payload
       );
       console.log("budget deleted");
+      alert("budget deleted");
     },
     calculateAllLoans: (state) => {
       state.allLoans = state.budget.reduce(
@@ -83,7 +84,7 @@ const functionSlice = createSlice({
       state.budget.forEach((budget) => {
         const principal = parseFloat(budget.loanAmount);
         const rate = parseFloat(budget.loanRate) / 100 / 12;
-        (budget.totalLoan) = principal + principal * rate;
+        budget.totalLoan = principal + principal * rate;
         // console.log(`Calculating total loan for budget ${budget.totalLoan}`);
       });
     },
@@ -98,29 +99,37 @@ const functionSlice = createSlice({
         // console.log(`Payment Frequency: ${budget.paymentFrequency}`)
       });
     },
-    updatePaymentPercentage: (state, action)=> {
+    updatePaymentPercentage: (state, action) => {
       const budgetId = action.payload;
       const budget = state.budget.find((budget) => budget.id === budgetId);
       if (budget) {
         const paymentEstimate = parseFloat(budget.paymentEstimate);
         const totalLoanAmount = parseFloat(budget.totalLoan);
         const currentLoanPercentage = parseFloat(budget.loanPercentagePaid);
-        
+
         // Calculate the additional percentage paid for this payment
         const additionalPercentage = (paymentEstimate / totalLoanAmount) * 100;
-        
+
         // Update the loanPercentagePaid by accumulating the additional percentage
-        budget.loanPercentagePaid = Math.min(currentLoanPercentage + additionalPercentage, 100).toFixed(0);
-        
+        budget.loanPercentagePaid = Math.min(
+          currentLoanPercentage + additionalPercentage,
+          100
+        ).toFixed(0);
+
         if (budget.loanPercentagePaid > 0 && budget.loanPercentagePaid < 100) {
           budget.status = "In Progress";
         } else if (budget.loanPercentagePaid === 100) {
           budget.status = "Paid";
         }
       }
-      
-    }
-    //   other actions..
+    },
+   
+
+    updateAllpayments: (state, action) => {
+      state.allPayments = state.allPayments + action.payload;
+    },
+
+     //   other actions.
   },
 });
 
@@ -138,6 +147,7 @@ export const {
   updatePaymentPercentage,
   calculateTotalLoan,
   calculatePaymentEstimate,
+  updateAllpayments,
 } = functionSlice.actions;
 
 export default functionSlice.reducer;
