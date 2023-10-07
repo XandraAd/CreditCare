@@ -40,7 +40,10 @@ import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { CircularProgressBar } from "@tomickigrzegorz/react-circular-progress-bar";
 import { PaystackButton } from "react-paystack";
-import { updatePaymentPercentage } from "../slices/functionSlice";
+import {
+  updatePaymentPercentage,
+  updateAllpayments,
+} from "../slices/functionSlice";
 
 const Payment = () => {
   const state = useSelector((state) => state.loanReducer.budget);
@@ -128,7 +131,7 @@ const Payment = () => {
                   color="gray.600"
                   fontWeight="bold"
                   textTransform="uppercase"
-                  px={{base: 4, lg: 0}}
+                  px={{ base: 4, lg: 0 }}
                 >
                   {tableHeading}
                 </Text>
@@ -186,7 +189,7 @@ const Payment = () => {
               <Tbody fontSize="xs">
                 {state.map((tableData, i) => (
                   <>
-                    <Tr color="gray.600" key={tableData.id}>
+                    <Tr color="gray.600" key={tableData.i}>
                       <Td textAlign="center">{tableData.id}</Td>
                       <Td textAlign="center">{tableData.endDate}</Td>
                       <Td textAlign="center" textTransform="uppercase">
@@ -465,6 +468,11 @@ const Payment = () => {
                               onSuccess={() => {
                                 const budgetId = tableData.id;
                                 dispatch(updatePaymentPercentage(budgetId));
+                                dispatch(
+                                  updateAllpayments(
+                                    parseFloat(tableData.paymentEstimate)  
+                                  )
+                                );
                               }}
                             />
                           </Flex>

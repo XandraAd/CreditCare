@@ -14,14 +14,14 @@ import {
   Image,
   Divider,
 } from "@chakra-ui/react";
-import Eclipse from "../assets/images/iPhone 11 Pro/Ellipse 13.svg";
+import Eclipse from "../assets/images/iPhone 11 Pro/eclipse.jpg";
 
 const CreditScore = () => {
   return (
     <>
-      {/*COLUMN 3*/}
-      <Flex w="100%" flexDir="column" minH="100vh" alignItems="center">
-        <Box bg="cyan.400" w="100%" minH="8%">
+    <Box w="100%" h="100%" bg="cyan.400">
+      <Flex  flexDir="column" minH="100vh" alignItems="center">
+        <Box bg="cyan.200" w="100%" minH="8%">
           <Flex
             w="25%"
             bg="rgba(0, 0, 0, 0.92)"
@@ -64,7 +64,7 @@ const CreditScore = () => {
                 </HStack>
 
                 <VStack>
-                  <Box v="100%">
+                  <Box>
                     <Card maxW="sm" bg="rgba(0, 0, 0, 0.92)" color="#38A169">
                       <CardBody>
                         <Image src={Eclipse} alt="moon eclipse" />
@@ -88,6 +88,9 @@ const CreditScore = () => {
           </Flex>
         </Box>
       </Flex>
+    </Box>
+      
+      
     </>
   );
 };
