@@ -156,6 +156,7 @@ function LoanCard({ onEditBudget, searchQuery }) {
                 mt={4}
                 fontSize="sm"
                 color="gray.400"
+                fontWeight="semibold"
               >
                 No loan portfolio in this category.
               </Text>
