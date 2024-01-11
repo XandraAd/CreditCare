@@ -49,11 +49,10 @@ The Credit/Loan App relies on the following dependencies:
 Ensure that these dependencies are installed before running the application.
 
 ## Installation
-
 To install and run the Credit/Loan App, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/credit-loan-app.git`
-2. Navigate to the project directory: `cd credit-loan-app`
+1. Clone the repository: `git clone https://github.com/XandraAd/CreditCare.git`
+2. Navigate to the project directory: `cd credit-care-app`
 3. Install dependencies: `npm install`
 4. Start the application: `npm start`
 
