@@ -120,11 +120,20 @@ function LoanCard({ onEditBudget, searchQuery }) {
     activeTab === "All"
       ? state
       : state.filter((loan) => loan.name === activeTab);
+  //console.log(filteredLoans);
 
   return (
     <>
       <Box>
-        <HStack bg="#FDFDFD" p={1} rounded="lg" shadow="sm" my={4} overflowX="auto" whiteSpace="nowrap">
+        <HStack
+          bg="#FDFDFD"
+          p={1}
+          rounded="lg"
+          shadow="sm"
+          my={4}
+          overflowX="auto"
+          whiteSpace="nowrap"
+        >
           {renderTabs()}
         </HStack>
         {filteredLoans.length === 0 ? (
@@ -147,6 +156,7 @@ function LoanCard({ onEditBudget, searchQuery }) {
                 mt={4}
                 fontSize="sm"
                 color="gray.400"
+                fontWeight="semibold"
               >
                 No loan portfolio in this category.
               </Text>
@@ -260,7 +270,7 @@ function ModalForm({
       endDate: "",
       totalLoan: 0,
       paymentEstimate: 0,
-      status : "Pending",
+      status: "Pending",
       loanPaid: 0,
       loanPercentagePaid: 0,
     }
@@ -285,6 +295,13 @@ function ModalForm({
     onSubmit(budgetData);
   };
 
+  const name = [
+    {label:"Car Loan", value:"Car Loan"},
+    {label:"Home Loan", value:"Home Loan"},
+    {label:"Business Loan", value:"Business Loan"},
+    {label:"Peer to Peer", value:"Peer to Peer"}
+  ]
+
   const loanTypes = [
     { label: "Loan Disbursed", value: "loanDisbursed" },
     { label: "Outstanding Debt", value: "outstandingDebt" },
@@ -302,13 +319,20 @@ function ModalForm({
       <HStack>
         <FormControl id="name">
           <FormLabel>Loan Name/Category:</FormLabel>
-          <Input
+          <Select
             type="text"
             name="name"
             value={budgetData.name}
             onChange={handleChange}
-            placeholder="Peer to Peer, Car Loan, Home Loan etc."
-          />
+            placeholder="Loan Category"
+            >
+              {name.map((name) => (
+              <option key={name.value} value={name.value}>
+                {name.label}
+              </option>
+              ))}
+            </Select>
+         
         </FormControl>
       </HStack>
       <HStack gap={5} mt={4}>

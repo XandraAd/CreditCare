@@ -14,20 +14,20 @@ import {
   Image,
   Divider,
 } from "@chakra-ui/react";
-import Eclipse from "../assets/images/iPhone 11 Pro/Ellipse 13.svg";
+import Eclipse from "../assets/images/iPhone 11 Pro/eclipse.jpg";
 
 const CreditScore = () => {
   return (
     <>
-      {/*COLUMN 3*/}
-      <Flex w="100%" flexDir="column" minH="100vh" alignItems="center">
-        <Box bg="cyan.400" w="100%" minH="8%">
+    <Box >
+      <Flex >
+        <Box bg="cyan.200" w="100%" >
           <Flex
-            w="25%"
+            w="100%"
             bg="rgba(0, 0, 0, 0.92)"
             color="white"
             flexDir="column"
-            h="25%"
+            h="100%"
           >
             <Heading
               textTransform="uppercase"
@@ -64,19 +64,18 @@ const CreditScore = () => {
                 </HStack>
 
                 <VStack>
-                  <Box v="100%">
+                  <Box>
                     <Card maxW="sm" bg="rgba(0, 0, 0, 0.92)" color="#38A169">
                       <CardBody>
                         <Image src={Eclipse} alt="moon eclipse" />
                         <Flex flexDir="column">
                           <Heading size="md">Nerd 👍</Heading>
                           <Text fontSize="md" mt="5">
-                            Generated 18th July VantageScore 3.0 credit score by
-                            equifax
+                            **Features will be added later**
                           </Text>
                           <Divider mt="5" />
                           <Text mt="4" color="teal.600" fontSize="xs">
-                            You are using a lot of your available credit
+                            You will be able to tell your credit score and how to improve it.
                           </Text>
                         </Flex>
                       </CardBody>
@@ -88,6 +87,9 @@ const CreditScore = () => {
           </Flex>
         </Box>
       </Flex>
+    </Box>
+      
+      
     </>
   );
 };

@@ -41,12 +41,12 @@ const Calender = () => {
   return (
     <Box display="flex" justifyContent="space-between" backgroundColor="#">
       {/* CALENDAR SIDEBAR */}
-      <Box flex="1 1 20%" bg="gray.400" p="15px" borderRadius="4px">
+      <Box flex="1 1 20%" bg="cyan.400" p="15px" borderRadius="4px">
         <Text fontSize={"3xl"}>Events</Text>
         <List>
-          {currentEvents.map((event) => (
+          {currentEvents.map((event,id) => (
             <ListItem
-              key={event.id}
+              key={id}
               sx={{
                 backgroundColor: "gray.100",
                 color: "black",

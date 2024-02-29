@@ -3,27 +3,12 @@ import React from "react";
 import { useEffect, useMemo, useState } from "react";
 import {
   Box,
-  Heading,
   Text,
   Flex,
-  Card,
-  CardHeader,
-  CardBody,
-  HStack,
-  Stack,
   Divider,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
   Grid,
   GridItem,
   Icon,
-  Container,
 } from "@chakra-ui/react";
 import BarChart from "../../component/BarChart";
 import { TbCurrencyCent } from "react-icons/tb";
@@ -31,22 +16,31 @@ import { GiReceiveMoney } from "react-icons/gi";
 import { GiMoneyStack } from "react-icons/gi";
 import { HiOutlineBriefcase } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
-import { calculateAllLoans, calculateAllPayments } from "../../slices/functionSlice";
+import {
+  calculateAllLoans,
+  calculateAllPayments,
+  updatePaymentPercentage
+} from "../../slices/functionSlice";
 import LineChart from "../../component/LineChart";
 import YearlyBarChart from "../../component/YearlyBarChart";
 
 const DashBoard = () => {
   const state = useSelector((state) => state.loanReducer);
   const dispatch = useDispatch();
+  //console.log(state);
 
-  useEffect(()=>{
-    dispatch(calculateAllLoans(), calculateAllPayments())
-  }, [dispatch])
+  useEffect(() => {
+    dispatch(calculateAllLoans(), calculateAllPayments(),updatePaymentPercentage());
+  }, [dispatch]);
 
   return (
     <>
       <Box>
-        <Grid my={10} templateColumns="repeat(auto-fit, minmax(200px, 1fr))" gap={5}>
+        <Grid
+          my={10}
+          templateColumns="repeat(auto-fit, minmax(200px, 1fr))"
+          gap={5}
+        >
           <GridItem bg="white" rounded="lg" p={3} shadow="md" h="8.25rem">
             <Flex align="center">
               <Icon
@@ -92,7 +86,7 @@ const DashBoard = () => {
               />
               <Box ms="auto">
                 <Text fontSize="xs" color="gray.500">
-                  Total Loans
+                  Total Loans Disbursed
                 </Text>
                 <Text fontSize="sm" fontWeight="bold" textAlign="end">
                   GHS {state.allLoans}.00
@@ -102,7 +96,7 @@ const DashBoard = () => {
             <Divider />
             <Text fontSize="sm" color="gray.500" my={2}>
               <Text as="span" color="red.400" fontWeight="bold">
-                0%{" "}
+                0%{state.updatePaymentPercentage}
               </Text>
               from last week
             </Text>
@@ -122,10 +116,11 @@ const DashBoard = () => {
               />
               <Box ms="auto">
                 <Text fontSize="xs" color="gray.500">
-                  Total Outstanding
+                  Total Outstanding Debt
                 </Text>
                 <Text fontSize="sm" fontWeight="bold" textAlign="end">
                   GHS 0.00
+                 
                 </Text>
               </Box>
             </Flex>
@@ -166,17 +161,12 @@ const DashBoard = () => {
           </GridItem>
         </Grid>
         <Grid templateColumns="repeat(auto-fit, minmax(12rem, 1fr))" gap={5}>
-          <GridItem
-            bg="white"
-            p={3}
-            rounded="lg"
-            shadow="md"
-          >
+          <GridItem bg="white" p={3} rounded="lg" shadow="md">
             <BarChart bgGradient="linear(to-b,blue.500,blue.400,blue.300)" />
             <Text fontSize="sm" color="gray.500" fontWeight="bold">
               Weekly Payments
             </Text>
-            <Divider my={2}/>
+            <Divider my={2} />
             <Text fontSize="sm" color="gray.500">
               Lorem ipsum dolor sit amet.
             </Text>
@@ -186,7 +176,7 @@ const DashBoard = () => {
             <Text fontSize="sm" color="gray.500" fontWeight="bold">
               Monthly Payments
             </Text>
-            <Divider my={2}/>
+            <Divider my={2} />
             <Text fontSize="sm" color="gray.500">
               Repudiandae, illum amet.
             </Text>
@@ -196,7 +186,7 @@ const DashBoard = () => {
             <Text fontSize="sm" color="gray.500" fontWeight="bold">
               Yearly Payments
             </Text>
-            <Divider my={2}/>
+            <Divider my={2} />
             <Text fontSize="sm" color="gray.500">
               Consequuntur at omnis sit sunt.
             </Text>
