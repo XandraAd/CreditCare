@@ -65,64 +65,71 @@ function SignInForm() {
   };
 
   return (
-    <Box className="backgroundStyle">
-      <Box p={4} className="formContainerStyle" h="65vh" w={{base: "full", lg: "50%"}}>
-        <form onSubmit={handleSubmit} className="formStyle">
-          <Center>
-            <Heading size="lg" mb={5} bgGradient="linear(to-r,cyan.700,cyan.500,teal.300)" bgClip="text">
-              Credit Care
-            </Heading>
-            {error && (
-              <Text color="red.400" fontWeight="semibold">
-                An Error has Occurred
-              </Text>
-            )}
-          </Center>
-          <Stack spacing={8}>
-            <FormControl id="email" isRequired>
-              <FormLabel>Email address</FormLabel>
-              <Input
-                type="email"
-                name="email"
-                onChange={handleChange}
-                placeholder="Enter your email"
-                bg="white"
-              />
-            </FormControl>
-            <FormControl id="password" isRequired>
-              <FormLabel>Password</FormLabel>
-              <Input
-                type="password"
-                name="password"
-                onChange={handleChange}
-                placeholder="Enter your password"
-                bg="white"
-              />
-            </FormControl>
-            <Button
-              type="submit"
-              bgGradient="linear(to-r,cyan.700,cyan.500,teal.300)"
-              _hover={{ bg: "teal.400" }}
-              color="#FDFDFD"
-              transition="all 500ms"
-              w="75%"
-              mx="auto"
-              size="lg"
-              mb="0"
-              isLoading={isLoading}
-            >
-              Sign In
-            </Button>
-            <Text fontSize="md">
-              Not a member?
-              <Link to="/signup" className="signup_link">
-                Sign up now
-              </Link>
-            </Text>
-          </Stack>
-        </form>
-      </Box>
+    <> <Box>signin 
+    <details>
+      email:test@test.com.
+      password:text@test1234@
+    </details>
     </Box>
+  <Box className="backgroundStyle">
+    <Box p={4} className="formContainerStyle" h="65vh" w={{base: "full", lg: "50%"}}>
+      <form onSubmit={handleSubmit} className="formStyle">
+        <Center>
+          <Heading size="lg" mb={5} bgGradient="linear(to-r,cyan.700,cyan.500,teal.300)" bgClip="text">
+            Credit Care
+          </Heading>
+          {error && (
+            <Text color="red.400" fontWeight="semibold">
+              An Error has Occurred
+            </Text>
+          )}
+        </Center>
+        <Stack spacing={8}>
+          <FormControl id="email" isRequired>
+            <FormLabel>Email address</FormLabel>
+            <Input
+              type="email"
+              name="email"
+              onChange={handleChange}
+              placeholder="Enter your email"
+              bg="white"
+            />
+          </FormControl>
+          <FormControl id="password" isRequired>
+            <FormLabel>Password</FormLabel>
+            <Input
+              type="password"
+              name="password"
+              onChange={handleChange}
+              placeholder="Enter your password"
+              bg="white"
+            />
+          </FormControl>
+          <Button
+            type="submit"
+            bgGradient="linear(to-r,cyan.700,cyan.500,teal.300)"
+            _hover={{ bg: "teal.400" }}
+            color="#FDFDFD"
+            transition="all 500ms"
+            w="75%"
+            mx="auto"
+            size="lg"
+            mb="0"
+            isLoading={isLoading}
+          >
+            Sign In
+          </Button>
+          <Text fontSize="md">
+            Not a member?
+            <Link to="/signup" className="signup_link">
+              Sign up now
+            </Link>
+          </Text>
+        </Stack>
+      </form>
+    </Box>
+  </Box></>
+   
   );
 }
 
