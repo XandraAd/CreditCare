@@ -68,7 +68,7 @@ function SignInForm() {
     <> <Box>signin 
     <details>
       email:test@test.com.
-      password:text@test1234@
+      password:test@test1234@
     </details>
     </Box>
   <Box className="backgroundStyle">
